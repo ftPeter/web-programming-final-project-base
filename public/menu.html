@@ -2,77 +2,133 @@
 <html lang="en">
     <link href="restaurant.css" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Chez 326 Menu</title>
+    <title>UMass Greenwall Pickup</title>
     <script src="menuvalidate.js" defer></script>
     <body>
         <h1> The Grill Menu</h1>
         <p>
-            Please choose one entree and three side-dish selections.
+            Please choose quantity of desired menu item.
         </p>
 
 
         <form action="/order" method="POST">
-            <div class="customer">
-                <h2>Customer Name</h2>
-                <div>
-                    <label for="first">First Name:</label>
-                    <input type="text" name="first" id="first">
-                </div>
-                <div>
-                    <label for="last">Last Name:</label>
-                    <input type="text" name="last" id="last">
-                </div>
-            </div>
             
-            <span class=floatleft>
+            <span id = "entrees">
             <h2>Entrees</h2>
             <div>
                 <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Chicken_Fried_Steak.jpg"></img>
-                    <input type="radio" name="entree" value="CFS" id="cfs">
-                    <label for="cfs">Chicken-Fried Steak</label>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Awesome Burger (Plant Based Bac'n Cheezeburger)  $5.99</label>
+                </div>
+
+                <div>
+                    <input type="number" name="entree" value="BBBB" id="bbbb">
+                    <label for="bbbb">Baby Berk Blue Burger  $5.99</label>
                 </div>
                 <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/6/6c/2019-10-04_%E2%80%93_45_Day_Dry_Aged_Reverse_Seared_Bone_In_Rib_Eye_04.jpg"></img>
-                    <input type="radio" name="entree" value="Ribeye" id="ribeye">
-                    <label for="ribeye">Ribeye Steak</label>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Baby Berk Burger  $5.99</label>
                 </div>
                 <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/f/f1/BLT_sandwich_%281%29.jpg"></img>
-                    <input type="radio" name="entree" value="BLT" id="blt">
-                    <label for="blt">Bacon Lettuce & Tomato Sandwich</label>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Chicken Burger  $5.99</label>
                 </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Chicken Tenders & Fries Basket $9.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Double Burger $6.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Double Chicken Burger $6.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Double Turkey Burger $6.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Fried Chicken Tenders  $6.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Hamburger $5.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Hampden Gold'n Spicy Burger $6.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Hampshire Burger $.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab"> Plant Based Double Bac'n Cheeze Burger $9.99</label>
+                </div>
+                <div>
+                    <input type="number" name="entree" value="AB" id="ab">
+                    <label for="ab">Turkey Burger $9.99</label>
+                </div>
+
             </div>
             </span>
 
-            <span class=rightalign>
-                <h2>Side Dishes</h2>
-                <p>Select three sides.</p>
-                <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Skillet_cornbread_%28cropped%29.jpg"></img> 
-                    <label for="item0" class="rightalign">Corn Bread:</label>
-                    <input type="checkbox" name="item0" id="item0">
-                </div>
-                <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Creamed_corn.jpg/1200px-Creamed_corn.jpg"></img>
-                    <label for="item1">Creamed Corn:</label>
-                    <input type="checkbox" name="item1" id="item1">
-                </div>
-                <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Heaps_of_beans.jpg/1200px-Heaps_of_beans.jpg"></img>
-                    <label for="item2">Green Beans:</label>
-                    <input type="checkbox" name="item2" id="item2">
-                </div>
-                <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/MashedPotatoes.jpg/1200px-MashedPotatoes.jpg"></img>
-                    <label for="item3">Mashed Potatos:</label>
-                    <input type="checkbox" name="item3" id="item3">
-                </div>
-                <div>
-                    <img width=128px src="https://upload.wikimedia.org/wikipedia/commons/1/1f/00956_Polish_baked_beans_-_a_la_bretonne_-.png"></img>
-                    <label for="item4">Baked Beans:</label>
-                    <input type="checkbox" name="item4" id="item4">
-                </div>
+            <span id = "Sides_and_Drinks"> 
+                <h2>Side and Drinks </h2>
+                    <div>
+                        <input type="number" name="Snd" value="AB" id="ab">
+                        <label for="ab">Chocolate Milkshake $5.99</label>
+                    </div>
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Strawberry Milkshake $5.99</label>
+                    </div>
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Vanilla Milkshake $5.99</label>
+                    </div>
+                    
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">French Fries $2.99</label>
+                    </div>
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Onion Rings $2.99</label>
+                    </div>
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Side Salad $4.99</label>
+                    </div> 
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Sweet Potato French Fries $4.99</label>
+                    </div> 
+
+
+                
+            </span>
+            <span id = "add_ons"> 
+                <h2>Add-Ons</h2>
+                    <div>
+                        <input type= "number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Bacon Slice $0.75</label>
+                    </div>
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Fresh Avocado $1.50</label>
+                    </div>
+                    <div>
+                        <input type="number" name="addOns" value="AB" id="ab">
+                        <label for="ab">Fried Egg  $1.99</label>
+                    </div>
+
+            
+                
             </span>
             <input type="submit">
         </form>
