@@ -1,0 +1,33 @@
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+  background-color: rgb(208,208,208);
+}
+
+#iframe {
+  display: block;
+  text-align: center;
+}
+
+iframe {
+  border: 5px solid rgb(92, 30, 30);
+  border-radius: 10px;
+  width: 700px;
+  height: 500px;
+}
+
+#map-desc {
+  color: white;
+  /* font-family: "system-ui"; */
+  font-size: large;
+  display: block;
+  text-align: center;
+  width: 800px;
+  height: 20px;
+  background-color: rgb(110, 110, 110);
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
+}
