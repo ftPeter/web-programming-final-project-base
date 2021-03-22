@@ -1,82 +1,89 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 html,
 body {
-  background-image: linear-gradient(-225deg, brown 0%, peru 100%);
-  background-image: linear-gradient(to top, brown 0%, peru 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  height: 100%;
-  display: grid;
-  place-items: center;
+    background-image: linear-gradient(-225deg, brown 0%, peru 100%);
+    background-image: linear-gradient(to top, brown 0%, peru 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: 100%;
+    display: grid;
+    place-items: center;
 }
 
 .wrap {
-  position: unset;
-  place-items: center;
-  width: 500px;
-  height: 300px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 5px;
-  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+    position: unset;
+    place-items: center;
+    width: 500px;
+    height: 300px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
 }
+
 .wrap .login_text {
-  display: flex;
-  width: 200%;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 20px;
+    display: flex;
+    width: 200%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
 }
+
 .login {
-  place-items: center;
-  right: 500px;
+    place-items: center;
+    right: 500px;
 }
 
 input[type="text"],
 input[type="password"] {
-  padding: 12px 120px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
+    padding: 12px 120px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
 }
+
 input[type="text"],
 input[type="username"] {
-  padding: 12px 120px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
+    padding: 12px 120px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
 }
 
 input[type="submit"] {
-  background-color: maroon;
-  padding: 12px 183px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  color: white;
+    background-color: maroon;
+    padding: 12px 183px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: white;
 }
+
 .login_title {
-  text-align: left;
-  font-size: larger;
+    text-align: left;
+    font-size: larger;
 }
+
 h1 {
-  position: relative;
-  color: white;
-  text-align: center;
+    position: relative;
+    color: white;
+    text-align: center;
 }
+
 h2 {
-  position: relative;
-  color: white;
-  text-align: center;
+    position: relative;
+    color: white;
+    text-align: center;
 }
+
 img {
-  position: absolute;
-  height: 100px;
-  left: 20px;
+    position: absolute;
+    height: 100px;
+    left: 20px;
 }
