@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <link href="menu1.css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <title>UMass Greenwall Pickup</title>
-    <script src="menuvalidate.js" defer></script>
-    <body>
-        <img src = "umass_cicle_logo.png" alt="Umass Amherst logo."  ><br></a> <br>
-        <h1> The Grill Menu</h1>
-        <p>
-            Please choose quantity of desired menu item.
-        </p>
+<link href="menu1.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>UMass Greenwall Pickup</title>
+<script src="menuvalidate.js" defer></script>
+
+<body>
+    <img src="../images/umass_cicle_logo.png" alt="Umass Amherst logo."><br></a> <br>
+    <h1> The Grill Menu</h1>
+    <p>
+        Please choose quantity of desired menu item.
+    </p>
 
 
-        <form action="/order" method="POST">
-            
-            <span id = "entrees">
+    <form action="/order" method="POST">
+
+        <span id="entrees">
             <h2>Entrees</h2>
             <div>
                 <div>
@@ -78,7 +79,7 @@
             </div>
             </span>
 
-            <span id = "Sides_and_Drinks"> 
+        <span id="Sides_and_Drinks"> 
                 <h2>Side and Drinks </h2>
                     <div>
                         <input type="number" name="Snd" value="CM" id="cm" min="0">
@@ -127,7 +128,8 @@
                 
             </span>
 
-            <input type="submit" value="Check Out">
-        </form>
-    </body>
+        <input type="submit" value="Check Out">
+    </form>
+</body>
+
 </html>
