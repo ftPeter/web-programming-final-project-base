@@ -1,12 +1,29 @@
-<html>
-    <head>
-        <title>326 Base Project</title>
-    </head>
-    <body>
-        <h1>326 Base Project</h1>
-        <p>You have successfully opened your Heroku project. 
-        Feel free to replace this file with the first page of your
-        web site.
-        </p>
-    </body>
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Umass Pick-Up</title>
+    <link rel="shortcut icon" href="Signin/Images/umass_cicle_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+</head>
+
+<body>
+  <ul class="icon-and-title">
+    <li><img src = "Signin/Images/umass_cicle_logo.png" alt="Umass Amherst Logo"></li>
+    <li><h1 id="title">Umass Pick-Up</h1></li>
+  </ul>
+
+  <div>
+      <ul class="topnav">
+          <li><a class="active" href="#home">Home</a></li>
+          <li><a routerLink="/orders" href="#orders">Orders</a></li>
+          <li><a routerLink="/contact" href="#contact">Contact</a></li>
+      </ul>
+  </div>
+  <router-outlet></router-outlet>
+</body>
+
 </html>
