@@ -1,35 +1,38 @@
 * {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
-  background-color: rgb(208,208,208);
+    background-image: linear-gradient(-225deg, brown 0%, peru 100%);
+    background-image: linear-gradient(to top, brown 0%, peru 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 ul.icon-and-title {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 ul.icon-and-title li {
-  float: left;
+    float: left;
 }
 
-ul.icon-and-title li img, ul.icon-and-title li h1{
+ul.icon-and-title li img,
+ul.icon-and-title li h1 {
     display: block;
     padding: 14px 16px;
-    vertical-align: middle;
 }
 
 img {
-  height: 100px;
+    height: 100px;
 }
 
 #title {
-  color: rgb(92, 30, 30);
-  font-size: 40pt;
+    color: rgb(75, 77, 75);
+    font-size: 40pt;
 }
 
 ul.topnav {
@@ -37,7 +40,7 @@ ul.topnav {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(80, 13, 13);
+    background-color: rgb(168, 165, 165);
 }
 
 ul.topnav li {
@@ -58,7 +61,7 @@ li:last-child {
 }
 
 ul.topnav li a:hover:not(.active) {
-    background-color: rgb(104, 16, 16);
+    background-color: rgb(168, 165, 165);
 }
 
 ul.topnav li a.active {
@@ -66,7 +69,8 @@ ul.topnav li a.active {
 }
 
 @media screen and (max-width: 600px) {
-    ul.topnav, ul.topnav li {
+    ul.topnav,
+    ul.topnav li {
         float: none;
     }
 }
