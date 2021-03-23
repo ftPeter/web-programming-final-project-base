@@ -79,7 +79,7 @@ ul.topnav li a.active {
     text-align: center;
     position: relative;
     margin: auto;
-    bottom: -400px;
+    bottom: -50px;
     font-size: 30px;
 }
 
@@ -90,7 +90,7 @@ ul.topnav li a.active {
     text-align: center;
     position: relative;
     margin: auto;
-    bottom: -600px;
+    bottom: -160px;
     left: -200px;
     font-size: 30px;
 }
@@ -102,9 +102,8 @@ ul.topnav li a.active {
     text-align: center;
     position: relative;
     margin: auto;
-    bottom: -600px;
+    bottom: -50px;
     left: 200px;
-    top: 491px;
     font-size: 30px;
 }
 
