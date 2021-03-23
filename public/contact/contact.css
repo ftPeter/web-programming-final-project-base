@@ -10,6 +10,72 @@ body {
     color: white
 }
 
+ul.icon-and-title {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+ul.icon-and-title li {
+    float: left;
+}
+
+ul.icon-and-title li img,
+ul.icon-and-title li h1 {
+    display: block;
+    padding: 14px 16px;
+}
+
+img {
+    height: 100px;
+}
+
+#title {
+    color: rgb(75, 77, 75);
+    font-size: 40pt;
+}
+
+ul.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(168, 165, 165);
+}
+
+ul.topnav li {
+    float: left;
+}
+
+ul.topnav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+ul.topnav li a:hover:not(.active) {
+    background-color: rgb(168, 165, 165);
+}
+
+ul.topnav li a.active {
+    background-color: rgb(75, 77, 75);
+}
+
+@media screen and (max-width: 600px) {
+    ul.topnav,
+    ul.topnav li {
+        float: none;
+    }
+}
+
 #iframe {
     display: block;
     text-align: center;

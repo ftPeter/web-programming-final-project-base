@@ -4,21 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Menu</title>
-    <link rel="shortcut icon" href="images/umass_circle_logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu4.css" rel="stylesheet">
     <script src="menuvalidate.js" defer></script>
 </head>
 
 <body>
-    <img src="../images/umass_circle_logo.png" alt="Umass Amherst logo."><br></a> <br>
-    <h1> Tavola Menu</h1>
-    <p>
-        Please choose quantity of desired menu item.
-    </p>
+    <ul class="icon-and-title">
+        <li><img src="../images/umass_circle_logo.png" alt="Umass Amherst Logo"></li>
+        <li>
+            <h1 id="title">Umass Pick-Up</h1>
+        </li>
+    </ul>
 
-    <form action="/order" method="POST">
+    <div>
+        <ul class="topnav">
+            <li><a class="active" href="index.html">Home</a></li>
+            <li><a href="confirmation/confirmation.html">Orders</a></li>
+            <li><a href="contact/contact.html">Contact</a></li>
+        </ul>
+    </div>
 
-        <span id="entrees">
+    <br>
+    <div id="menu">
+        <h1> Tavola Menu</h1>
+        <p>
+            Please choose quantity of desired menu item.
+        </p>
+
+        <form action="/order" method="POST">
+
+            <span id="entrees">
             <h2>Entrees</h2>
             <div>
                 <div>
@@ -88,7 +104,7 @@
             </div>
             </span>
 
-        <span id="Sides_and_Drinks"> 
+            <span id="Sides_and_Drinks"> 
                 <h2>Side and Drinks </h2>
                     <div>
                         <input type="number" name="Snd" value="W" id="w" min="0">
@@ -123,9 +139,11 @@
                         <label for="sgcs">Spanish Grilled Chicken Skewers $2.99</label>
                     </div>
             </span>
-        <br>
-        <input type="submit" value="Check Out">
-    </form>
+            <br>
+            <input type="submit" value="Check Out">
+        </form>
+    </div>
+    <br>
 </body>
 
 </html>
