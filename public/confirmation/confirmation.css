@@ -108,14 +108,8 @@ ul.topnav li a.active {
     font-size: 30px;
 }
 
-h1 {
+#confirmation {
     position: relative;
     color: white;
     text-align: center;
-}
-
-img {
-    position: absolute;
-    height: 100px;
-    left: 20px;
 }
