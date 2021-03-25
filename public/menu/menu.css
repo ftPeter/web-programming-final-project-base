@@ -1,3 +1,7 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
     background-image: linear-gradient(-225deg, brown 0%, peru 100%);
     background-image: linear-gradient(to top, brown 0%, peru 100%);
@@ -33,7 +37,7 @@ img {
 }
 
 #title {
-    color: rgb(75, 77, 75);
+    color: black;
     font-size: 40pt;
 }
 

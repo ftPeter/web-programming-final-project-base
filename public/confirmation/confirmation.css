@@ -1,9 +1,63 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
     background-image: linear-gradient(-225deg, brown 0%, peru 100%);
     background-image: linear-gradient(to top, brown 0%, peru 100%);
     background-attachment: fixed;
     background-repeat: no-repeat;
     height: 100%;
+}
+
+img {
+    height: 100px;
+}
+
+#title {
+    color: black;
+    font-size: 40pt;
+}
+
+#confirmation {
+    position: relative;
+    color: white;
+    text-align: center;
+}
+
+.box1 {
+    border: 5px solid white;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    bottom: -50px;
+    font-size: 30px;
+}
+
+.box2 {
+    border: 5px solid white;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    bottom: -160px;
+    left: -200px;
+    font-size: 30px;
+}
+
+.box3 {
+    border: 5px solid white;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+    bottom: -50px;
+    left: 200px;
+    font-size: 30px;
 }
 
 ul.icon-and-title {
@@ -21,15 +75,6 @@ ul.icon-and-title li img,
 ul.icon-and-title li h1 {
     display: block;
     padding: 14px 16px;
-}
-
-img {
-    height: 100px;
-}
-
-#title {
-    color: rgb(75, 77, 75);
-    font-size: 40pt;
 }
 
 ul.topnav {
@@ -70,45 +115,4 @@ ul.topnav li a.active {
     ul.topnav li {
         float: none;
     }
-}
-
-.box1 {
-    border: 5px solid white;
-    width: 300px;
-    height: 100px;
-    text-align: center;
-    position: relative;
-    margin: auto;
-    bottom: -50px;
-    font-size: 30px;
-}
-
-.box2 {
-    border: 5px solid white;
-    width: 300px;
-    height: 100px;
-    text-align: center;
-    position: relative;
-    margin: auto;
-    bottom: -160px;
-    left: -200px;
-    font-size: 30px;
-}
-
-.box3 {
-    border: 5px solid white;
-    width: 300px;
-    height: 100px;
-    text-align: center;
-    position: relative;
-    margin: auto;
-    bottom: -50px;
-    left: 200px;
-    font-size: 30px;
-}
-
-#confirmation {
-    position: relative;
-    color: white;
-    text-align: center;
 }
