@@ -28,6 +28,26 @@ body {
     margin: auto;
 }
 
+input[type=number] {
+    width: 5%;
+    border: 2px solid rgb(110, 110, 110);
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+input[type=submit] {
+    border: 2px solid rgb(110, 110, 110);
+    border-radius: 10px;
+    background-color: rgb(110, 110, 110);
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    width: 150px;
+    padding: 20px;
+    cursor: pointer;
+}
+
 ul.icon-and-title {
     list-style-type: none;
     margin: 0;
