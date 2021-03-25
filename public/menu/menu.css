@@ -15,6 +15,19 @@ body {
     place-items: center;
 }
 
+#instructions {
+    font-size: large;
+    color: white;
+    display: block;
+    text-align: center;
+    width: 800px;
+    height: 50px;
+    background-color: rgb(110, 110, 110);
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+}
+
 ul.icon-and-title {
     list-style-type: none;
     margin: 0;
