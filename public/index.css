@@ -43,6 +43,12 @@ a {
     text-align: center;
 }
 
+#directory-title {
+    color: black;
+    font-size: 30pt;
+    text-align: center;
+}
+
 #description {
     font-size: large;
     color: white;
