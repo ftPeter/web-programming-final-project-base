@@ -7,6 +7,7 @@ body {
     background-image: linear-gradient(to top, brown 0%, peru 100%);
     background-attachment: fixed;
     background-repeat: no-repeat;
+    /* background-color: darkgrey; */
 }
 
 img {
@@ -86,6 +87,7 @@ ul.topnav {
     padding: 0;
     overflow: hidden;
     background-color: rgb(168, 165, 165);
+    /* background-color: rgb(29, 29, 29); */
 }
 
 ul.topnav li {
