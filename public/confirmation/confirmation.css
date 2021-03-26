@@ -1,9 +1,9 @@
 body {
-    background-image: linear-gradient(-225deg, brown 0%, peru 100%);
+    /* background-image: linear-gradient(-225deg, brown 0%, peru 100%);
     background-image: linear-gradient(to top, brown 0%, peru 100%);
     background-attachment: fixed;
-    background-repeat: no-repeat;
-    /* background-color: darkgrey; */
+    background-repeat: no-repeat; */
+    background-color: darkgrey;
 }
 
 .title-and-nav {
@@ -32,7 +32,8 @@ img {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     color: white;
-    background-color: rgb(26, 25, 25);
+    /* background-color: rgb(26, 25, 25); */
+    background-color: rgba(137, 22, 22, 255);
     text-align: center;
     padding-right: 20px;
 }
@@ -49,7 +50,7 @@ img {
 
 .order {
     box-sizing: content-box;
-    border: 5px solid rgb(177, 174, 174);
+    border: 5px solid rgb(59, 58, 58);
     border-radius: 10px;
     margin: auto;
     padding: 20px;
@@ -80,8 +81,8 @@ ul.topnav {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(168, 165, 165);
-    /* background-color: rgb(29, 29, 29); */
+    /* background-color: rgb(168, 165, 165); */
+    background-color: rgb(29, 29, 29);
 }
 
 ul.topnav li {
@@ -102,7 +103,8 @@ li:last-child {
 }
 
 ul.topnav li a:hover:not(.active) {
-    background-color: rgb(168, 165, 165);
+    /* background-color: rgb(168, 165, 165); */
+    background-color: rgb(65, 65, 65);
 }
 
 ul.topnav li a.active {
