@@ -31,11 +31,12 @@ body {
 }
 
 input[type=number] {
-    width: 5%;
+    width: 8%;
     border: 2px solid rgb(110, 110, 110);
     border-radius: 10px;
     margin: 10px;
     cursor: pointer;
+    text-align: center;
 }
 
 input[type=submit] {
