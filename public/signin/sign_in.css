@@ -20,7 +20,7 @@ body {
 .wrap {
     position: unset;
     place-items: center;
-    width: 500px;
+    /* width: 500px; */
     height: 300px;
     background: #fff;
     padding: 30px;
@@ -46,6 +46,7 @@ input[type="password"] {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
+    text-align: center;
 }
 
 input[type="text"],
@@ -54,6 +55,7 @@ input[type="username"] {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
+    text-align: center;
 }
 
 input[type="submit"] {
