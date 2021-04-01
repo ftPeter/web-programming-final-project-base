@@ -1,14 +1,53 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
     background-image: linear-gradient(-225deg, brown 0%, peru 100%);
     background-image: linear-gradient(to top, brown 0%, peru 100%);
     background-attachment: fixed;
     background-repeat: no-repeat;
+    /* background-color: darkgrey; */
 }
 
 #menu {
     height: 100%;
     display: grid;
     place-items: center;
+}
+
+#instructions {
+    font-size: large;
+    color: white;
+    display: block;
+    text-align: center;
+    width: 800px;
+    height: 50px;
+    background-color: rgb(165, 42, 42);
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+}
+
+input[type=number] {
+    width: 8%;
+    border: 2px solid rgb(110, 110, 110);
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+input[type=submit] {
+    border: 2px solid;
+    border-radius: 10px;
+    background-color: rgb(110, 110, 110);
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    width: 150px;
+    padding: 20px;
+    cursor: pointer;
 }
 
 ul.icon-and-title {
@@ -33,7 +72,7 @@ img {
 }
 
 #title {
-    color: rgb(75, 77, 75);
+    color: black;
     font-size: 40pt;
 }
 
@@ -42,7 +81,7 @@ ul.topnav {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(168, 165, 165);
+    background-color: rgb(29, 29, 29);
 }
 
 ul.topnav li {
@@ -63,7 +102,8 @@ li:last-child {
 }
 
 ul.topnav li a:hover:not(.active) {
-    background-color: rgb(168, 165, 165);
+    /* background-color: rgb(168, 165, 165); */
+    background-color: rgb(65, 65, 65);
 }
 
 ul.topnav li a.active {

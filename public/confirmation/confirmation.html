@@ -4,35 +4,47 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="confirmation.css" />
     <script src="../confirmation/confirmation.js" defer></script>
 
 
-    <title>Umass Pick Up Service Website</title>
+    <title>Order Confirmation</title>
 </head>
 
 <body>
-    <ul class="icon-and-title">
-        <li><img src="../images/umass_circle_logo.png" alt="Umass Amherst Logo"></li>
-        <li>
-            <h1 id="title">Umass Pick-Up</h1>
-        </li>
-    </ul>
-
-    <div>
-        <ul class="topnav">
-            <li><a class="active" href="../index.html">Home</a></li>
-            <li><a href="../confirmation/confirmation.html">Orders</a></li>
-            <li><a href="../contact/contact.html">Contact</a></li>
+    <div class="title-and-nav">
+        <ul class="icon-and-title">
+            <li><img src="../images/umass_circle_logo.png" alt="UMass Amherst Logo"></li>
+            <li>
+                <h1 id="title">UMass Pick-Up</h1>
+            </li>
         </ul>
+
+        <div>
+            <ul class="topnav">
+                <li><a class="active" href="../index.html">Home</a></li>
+                <li><a href="../confirmation/confirmation.html">Orders</a></li>
+                <li><a href="../contact/contact.html">Contact</a></li>
+            </ul>
+        </div>
     </div>
 
-    <h1 id="confirmation">Order Confirmation Page</h1>
-    <div class="box1">Order Status:</div>
-    <div class="box2">Order Number:</div>
-    <div class="box3">Order Estimate:</div>
+    <div class="content">
+        <h1 id="confirmation">ORDER CONFIRMATION</h1>
+        <!-- ADD Menu Items that they ordered HERE!!! -->
+
+        <div class="order">
+            <div id="order-num">
+                <p><strong>Order Confirmation #</strong></p>
+                <p id="number">2345678</p>
+            </div>
+            <p id="info"><strong>Order Status:</strong></p>
+            <p id="info"><strong>Order Estimate:</strong></p>
+
+        </div>
+    </div>
+
 </body>
 
 </html>
