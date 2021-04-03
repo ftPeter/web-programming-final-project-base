@@ -116,3 +116,9 @@ ul.topnav li a.active {
         float: none;
     }
 }
+
+#entreeWarning{
+    color: black;
+    font-weight: bold;
+    font-style: italic;
+}

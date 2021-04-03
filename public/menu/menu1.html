@@ -6,7 +6,8 @@
     <title>Menu</title>
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
-    <script src="../validate/validate.js" defer></script>
+    <script src="menu1.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -34,6 +35,7 @@
 
             <span id="entrees">
             <h2>Entrees</h2>
+            <div id="entreeWarning"> Please select one entree </div>
             <div>
                 <div>
                     <input type="number" name="entree" value="AB" id="ab" min="0">
@@ -82,7 +84,7 @@
                 </div>
                 <div>
                     <input type="number" name="entree" value="HB" id="hb" min="0">
-                    <label for="hb">Hampshire Burger $0.99</label>
+                    <label for="hb">Hampshire Burger $9.99</label>
                 </div>
                 <div>
                     <input type="number" name="entree" value="PBDB" id="pbdb" min="0">
