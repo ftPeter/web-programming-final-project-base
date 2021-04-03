@@ -6,7 +6,7 @@
     <title>Menu</title>
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
-    <script src="menu1.js" defer></script>
+    <script src="../validate/menu1.js" defer></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -32,10 +32,9 @@
         <p id="instructions"><strong>Instructions:</strong><br>Please choose quantity of your desired menu item(s).</p>
 
         <form action="/order" method="POST">
-
             <span id="entrees">
             <h2>Entrees</h2>
-            <div id="entreeWarning"> Please select one entree </div>
+            <div id="warning"> **Please select at least one item from the entire menu </div>
             <div>
                 <div>
                     <input type="number" name="entree" value="AB" id="ab" min="0">
@@ -98,8 +97,8 @@
             </div>
             </span>
 
-            <span id="Sides_and_Drinks"> 
-                <h2>Side and Drinks </h2>
+            <span id="sidesDrinks"> 
+                <h2>Sides and Drinks </h2>
                     <div>
                         <input type="number" name="Snd" value="CM" id="cm" min="0">
                         <label for="cm">Chocolate Milkshake $5.99</label>
