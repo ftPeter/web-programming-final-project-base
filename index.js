@@ -17,7 +17,7 @@ express()
   .set('view engine', 'ejs')
   .get('/test', (req, res) => res.render('pages/test', {users: ["John", "Paul", "Ringo"]}))
   .get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/signin/sign_in.html'));
   })
   .get('/order', (req, res) => {
       // const first_name = (req.query.first) ? req.query.first : "";
