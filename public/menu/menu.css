@@ -1,125 +1,154 @@
 * {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
-    background-image: linear-gradient(-225deg, brown 0%, peru 100%);
-    background-image: linear-gradient(to top, brown 0%, peru 100%);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    /* background-color: darkgrey; */
+  background-color: lightgray;
 }
 
 #menu {
-    height: 100%;
-    display: grid;
-    place-items: center;
+  height: 100%;
+  display: grid;
+  place-items: center;
 }
 
 #instructions {
-    font-size: large;
-    color: white;
-    display: block;
-    text-align: center;
-    width: 800px;
-    height: 50px;
-    background-color: rgb(165, 42, 42);
-    border-radius: 10px;
-    padding: 10px;
-    margin: auto;
+  font-size: large;
+  color: white;
+  display: block;
+  text-align: center;
+  width: 800px;
+  height: 50px;
+  /* background-color: rgb(165, 42, 42); */
+  background-color: rgba(137, 22, 22, 255);
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
 }
 
-input[type=number] {
-    width: 8%;
-    border: 2px solid rgb(110, 110, 110);
-    border-radius: 10px;
-    margin: 10px;
-    cursor: pointer;
-    text-align: center;
+/* MENU DOT LEADERS */
+
+div.leaders {
+  max-width: inherit;
+  padding: 0;
+  overflow-x: hidden;
+  list-style: none;
 }
 
-input[type=submit] {
-    border: 2px solid;
-    border-radius: 10px;
-    background-color: rgb(110, 110, 110);
-    color: white;
-    font-size: medium;
-    font-weight: bold;
-    width: 150px;
-    padding: 20px;
-    cursor: pointer;
+div.leaders label:after {
+  float: left;
+  width: 0;
+  white-space: nowrap;
+  content: ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . ";
+}
+
+div.leaders label {
+  padding-right: 0.4em;
+  background-color: lightgray;
+}
+
+div.leaders span {
+  float: right;
+  padding-left: 0.33em;
+  background-color: lightgray;
+}
+
+/* INPUT */
+
+input[type="number"] {
+  width: 60px;
+  border: 2px solid rgb(110, 110, 110);
+  border-radius: 10px;
+  padding-left: 0.6em;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+input[type="submit"] {
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: rgba(137, 22, 22, 255);
+  color: white;
+  font-size: medium;
+  font-weight: bold;
+  width: 150px;
+  padding: 20px;
+  cursor: pointer;
 }
 
 ul.icon-and-title {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 ul.icon-and-title li {
-    float: left;
+  float: left;
 }
 
 ul.icon-and-title li img,
 ul.icon-and-title li h1 {
-    display: block;
-    padding: 14px 16px;
+  display: block;
+  padding: 14px 16px;
 }
 
 img {
-    height: 100px;
+  height: 100px;
 }
 
 #title {
-    color: black;
-    font-size: 40pt;
+  color: black;
+  font-size: 40pt;
 }
 
 ul.topnav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: rgb(29, 29, 29);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(29, 29, 29);
 }
 
 ul.topnav li {
-    float: left;
+  float: left;
 }
 
 ul.topnav li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 25px;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
 }
 
 li:last-child {
-    border-right: none;
+  border-right: none;
 }
 
 ul.topnav li a:hover:not(.active) {
-    /* background-color: rgb(168, 165, 165); */
-    background-color: rgb(65, 65, 65);
+  background-color: rgb(65, 65, 65);
 }
 
 ul.topnav li a.active {
-    background-color: rgb(75, 77, 75);
+  background-color: rgb(75, 77, 75);
 }
 
 @media screen and (max-width: 600px) {
-    ul.topnav,
-    ul.topnav li {
-        float: none;
-    }
+  ul.topnav,
+  ul.topnav li {
+    float: none;
+  }
 }
 
-#warning{
-    /* color: rgb(165, 42, 42); */
-    color: white;
-    font-weight: bold;
-    font-style: italic;
+#warning {
+  color: rgba(137, 22, 22, 255);
+  font-weight: bold;
+  font-style: italic;
+  margin: 10px;
 }
