@@ -20,9 +20,10 @@ express()
     res.sendFile(path.join(__dirname + '/index.html'));
   })
   .get('/order', (req, res) => {
-      const first_name = (req.query.first) ? req.query.first : "";
-      const last_name = (req.query.last) ? req.query.last : "";
-      
+      // const first_name = (req.query.first) ? req.query.first : "";
+      // const last_name = (req.query.last) ? req.query.last : "";
+      const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
+
       let entree = "";
       let sideList = ""
       let order = "";
@@ -32,13 +33,11 @@ express()
         order = getOrderText(entree, sideList);
       }
       
-      let menu_info = {first: first_name, last: last_name,
+      let menu_info = {customerId: customer_id,
                        order: order}
 
-      if (validateMenu(first_name, last_name, entree, sideList)) {
+      if (validateMenu(customer_id, entree, sideList)) {
         let confirm_info = menu_info;
-        confirm_info.streetaddress = "";
-        confirm_info.cityaddress = "";
 
         res.render('pages/confirmation', confirm_info);
       } else {
@@ -46,16 +45,12 @@ express()
       }
   })
   .post('/confirm', async (req, res) => {
-      const first_name     = req.body.first;
-      const last_name      = req.body.last;
-      const street_address = req.body.streetaddress;
-      const city_state     = req.body.cityaddress;
+      const customer_id =  req.body.customerid;
       const order          = req.body.order;
 
-      let confirm_info = {first: first_name, last: last_name, streetaddress: street_address,
-                          cityaddress: city_state, order: order};
+      let confirm_info = {customerid: customer_id, order: order};
         
-      if (validateConfirm(first_name, last_name, street_address, city_state, order)) {
+      if (validateConfirm(customerid, order)) {
           // Push the new information to the database
           // and get the result for the new order number
           //
@@ -65,10 +60,10 @@ express()
           // VALUES ('Hope', 'Dog', '12 Street St', 'Northampton, MA', 
           //         'Fake order foods 4', now(), 'Received') 
           // RETURNING id;
-          let query_text = "INSERT INTO order_table (first_name, last_name, street_address, ";
-          query_text += "city_address, food_order, order_time, order_status) ";
-          query_text += "VALUES ('" + first_name + "', '" + last_name + "', '" + street_address + "', '";
-          query_text += city_state + "', '" + order + "', now(), 'Received') RETURNING id;";
+          let query_text = "INSERT INTO order_table (customer_id ";
+          query_text += "food_order, order_time, order_status) ";
+          query_text += "VALUES ('" + customer_id + "', '";
+          query_text += order + "', now(), 'Received') RETURNING id;";
 
           try {
               const client = await pool.connect();
@@ -84,14 +79,10 @@ express()
               const results = (select_result) ? select_result.rows[0] : null;
 
               const order_status   = results.order_status;
-              const first_name     = results.first_name;
-              const last_name      = results.last_name;
-              const street_address = results.street_address;
-              const city_state     = results.city_address;
+              const customer_id     = results.customer_id;
               const order          = results.food_order;
 
-              let customer_info = {first: first_name, last: last_name, streetaddress: street_address,
-                                   cityaddress: city_state, order: order, ordernumber: order_number,
+              let customer_info = {customerID:customer_id, order: order, ordernumber: order_number,
                                    orderstatus: order_status};
 
               res.render('pages/customerstatus', customer_info);
@@ -119,15 +110,11 @@ express()
       
         // assemble the local variables for the order status
         const order_status   = results.order_status;
-        const first_name     = results.first_name;
-        const last_name      = results.last_name;
-        const street_address = results.street_address;
-        const city_state     = results.city_address;
+        const customer_id     = results.customer_id;
         const order          = results.food_order;
 
-        let customer_info = {first: first_name, last: last_name, streetaddress: street_address,
-                             cityaddress: city_state, order: order, ordernumber: order_number,
-                             orderstatus: order_status};
+        let customer_info = {customerID:customer_id, order: order, ordernumber: order_number,
+          orderstatus: order_status};
 
         res.render('pages/customerstatus', customer_info);
         client.release();
@@ -150,10 +137,7 @@ express()
           orders.push({ timestamp: o.order_time,
                         order: o.food_order,
                         id: o.id,
-                        first: o.first_name,
-                        last: o.last_name, 
-                        streetaddress: o.street_address,
-                        cityaddress: o.city_address,
+                        customerID: o.customer_id,
                         orderstatus: o.order_status});
       }
 
@@ -200,13 +184,10 @@ express()
       let orders = [];
       for( let i=0; i<results.length; i++ ) {
           let o = results[i];
-          orders.push({ timestamp: o.order_time,
+          orders.push({  timestamp: o.order_time,
                         order: o.food_order,
                         id: o.id,
-                        first: o.first_name,
-                        last: o.last_name, 
-                        streetaddress: o.street_address,
-                        cityaddress: o.city_address,
+                        customerID: o.customer_id,
                         orderstatus: o.order_status});
       }
 
@@ -238,13 +219,11 @@ express()
  */
 
 // server side validation for the menu page submissions
-function validateMenu(first_name, last_name, entree, sideList) {
+function validateMenu(entrees, Sides_and_Drinks) {
     let valid = false;
 
-    if (first_name.length != 0 &&
-        last_name.length != 0 && 
-        entree != undefined && 
-        sideList.length === 3) {
+    if (entrees.length != 0 &&
+      Sides_and_Drinks.length != 0) {
         valid = true;
     }
 
@@ -252,14 +231,10 @@ function validateMenu(first_name, last_name, entree, sideList) {
 }
 
 // server side validaiton for the confirm page submissions
-function validateConfirm(first_name, last_name, street_address, city_state, order) {
+function validateConfirm(order) {
     let valid = false;
 
-    if (first_name.length != 0 &&
-        last_name.length != 0 && 
-        street_address.length != 0 &&
-        city_state.length != 0 &&
-        order.length != 0 ) {
+    if (order.length != 0 ) {
         valid = true;
     }
 
@@ -268,6 +243,7 @@ function validateConfirm(first_name, last_name, street_address, city_state, orde
 
 // build a single string formatted order from the 
 // entree and sides
+// Implement this
 function getOrderText(entree, sideList) {
     order = entree;
 
@@ -279,10 +255,11 @@ function getOrderText(entree, sideList) {
 
 // convert the item's buttons into strings
 // for each of the side dishes
+
+// Implement this
 function getSides(body) {
     sides = [];
-    
-    if (body.item0 === "on")
+    if (body.entree === "on")
         sides.push("Corn Bread")
     if (body.item1 === "on")
         sides.push("Creamed Corn")
