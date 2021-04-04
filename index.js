@@ -25,7 +25,7 @@ express()
       const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
 
       let entree = "";
-      let sideList = ""
+      let sideList = "";
       let order = "";
       if (req.query.entree) {
         entree = req.query.entree;
@@ -60,7 +60,7 @@ express()
           // VALUES ('Hope', 'Dog', '12 Street St', 'Northampton, MA', 
           //         'Fake order foods 4', now(), 'Received') 
           // RETURNING id;
-          let query_text = "INSERT INTO order_table (customer_id ";
+          let query_text = "INSERT INTO order_table (customer_id, ";
           query_text += "food_order, order_time, order_status) ";
           query_text += "VALUES ('" + customer_id + "', '";
           query_text += order + "', now(), 'Received') RETURNING id;";
