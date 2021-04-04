@@ -22,7 +22,6 @@
         <div>
             <ul class="topnav">
                 <li><a class="active" href="../index.html">Home</a></li>
-                <li><a href="../confirmation/confirmation.html">Orders</a></li>
                 <li><a href="../contact/contact.html">Contact</a></li>
             </ul>
         </div>
@@ -35,19 +34,19 @@
             <div id="order-num">
                 <p><strong>Order Confirmation #</strong></p>
                 <!-- Dynamically add order confirmation number -->
-                <p id="number"><%= orderNumber %></p>
+                <p id="number"><%= ordernumber %></p>
             </div>
             <!-- Dynamically add menu items that they ordered here -->
             <%= order %>
             <div class="leaders">
                 <span><strong>Order Status:</strong></span>
                 <!-- Dynamically add order status -->
-                <span id="status"><%= orderStatus %></span>
+                <span id="status"><%= order_status %></span>
             </div>
             <div class="leaders">
                 <span><strong>Order Estimate:</strong></span>
                 <!-- Dynamically add order estimate in minutes -->
-                <span id="estimate"><%= orderEstimate %></span>
+                <span id="estimate">About 20-25 minutes</span>
             </div>
         </div>
     </div>
