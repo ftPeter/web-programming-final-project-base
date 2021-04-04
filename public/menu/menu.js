@@ -14,7 +14,6 @@ $(document).ready(function () {
         for(let i=0; i<checkEntree.length; i++){
             for(let j=0; j<checkSides.length; j++){
                 totalItems += parseInt($(checkSides[j]).val()) || 0; 
-                console.log(checkSides[j]);
             }
             totalItems += parseInt($(checkEntree[i]).val()) || 0;
         }
@@ -41,7 +40,7 @@ $(document).ready(function () {
                 price += (val * parseFloat(priceStr.substring(1)));
             }
         });
-        $("#total")[0].innerText = "Order Total: $" + price.toFixed(2);
+        $("#total")[0].innerHTML = "<strong>Order Total: </strong>$" + price.toFixed(2);
     }   
 
     // validate that entrees and sides were chosen
