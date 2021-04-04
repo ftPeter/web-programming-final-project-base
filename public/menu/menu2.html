@@ -6,7 +6,8 @@
     <title>Menu</title>
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
-    <script src="../validate/validate.js" defer></script>
+    <script src="../validate/menu.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -35,7 +36,8 @@
             <div id="entrees">
             
                 <h2>Bowls</h2>
-                <p id="toppings">All bowls come with the following toppings: rice, pinto beans, shredded lettuce, shredded cheese, and mild salsa</p>
+                <div id="warning"> **Please select at least one item from the entire menu </div>
+                <p>All bowls come with the following toppings: rice, pinto beans, shredded lettuce, shredded cheese, and mild salsa</p>
                 <div>
                     <div class= "leaders">
                         <input type="number" name="entree" value="DTB" id="dtb" min="0">
@@ -64,8 +66,8 @@
                 </div>
             </div>
 
-            <div id="Sides_and_Drinks"> 
-                <h2>Side and Drinks </h2>
+                <div id="sidesDrinks"> 
+                    <h2>Side and Drinks </h2>
                     <div class= "leaders">
                         <input type="number" name="Snd" value="WT" id="wt" min="0">
                         <label for="wt">Water</label>

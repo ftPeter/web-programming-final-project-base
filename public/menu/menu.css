@@ -145,3 +145,10 @@ ul.topnav li a.active {
     float: none;
   }
 }
+
+#warning {
+  /* color: rgb(165, 42, 42); */
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+}
