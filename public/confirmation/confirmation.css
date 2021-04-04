@@ -29,30 +29,56 @@ img {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   color: white;
   background-color: rgba(137, 22, 22, 255);
-  text-align: center;
+  text-align: left;
+  padding-left: 20px;
   padding-right: 20px;
 }
 
 #number {
   text-align: right;
-}
-
-#info {
-  color: black;
-  padding: 20px;
-  text-align: left;
+  padding-right: 20px;
 }
 
 .order {
-  box-sizing: content-box;
-  border: 5px solid rgb(59, 58, 58);
+  border: 5px solid rgb(39, 38, 38);
   border-radius: 10px;
   margin: auto;
   padding: 20px;
-  width: 500px;
+  width: 700px;
   font-size: 20px;
-  text-align: center;
 }
+
+/* DOT LEADERS */
+
+div.leaders {
+  max-width: inherit;
+  padding: 0;
+  overflow-x: hidden;
+  list-style: none;
+  margin: 15px 20px;
+}
+
+div.leaders strong:after {
+  float: left;
+  width: 0;
+  white-space: nowrap;
+  content: ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . "
+    ". . . . . . . . . . . . . . . . . . . . ";
+}
+
+div.leaders strong {
+  background-color: lightgray;
+}
+
+div.leaders #status,
+#estimate {
+  float: right;
+  background-color: lightgray;
+}
+
+/* NAV BAR */
 
 ul.icon-and-title {
   list-style-type: none;

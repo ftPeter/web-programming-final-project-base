@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="confirmation.css" />
     <script src="../confirmation/confirmation.js" defer></script>
 
 
-    <title>Order Confirmation</title>
+    <title>Orders</title>
 </head>
 
 <body>
@@ -31,16 +32,24 @@
 
     <div class="content">
         <h1 id="confirmation">ORDER CONFIRMATION</h1>
-        <!-- ADD Menu Items that they ordered HERE!!! -->
 
         <div class="order">
             <div id="order-num">
                 <p><strong>Order Confirmation #</strong></p>
-                <p id="number">2345678</p>
+                <!-- Dynamically add order confirmation number -->
+                <p id="number"></p>
             </div>
-            <p id="info"><strong>Order Status:</strong></p>
-            <p id="info"><strong>Order Estimate:</strong></p>
-
+            
+            <div class="leaders">
+                <span><strong>Order Status:</strong></span>
+                <!-- Dynamically add order status -->
+                <span id="status"></span>
+            </div>
+            <div class="leaders">
+                <span><strong>Order Estimate:</strong></span>
+                <!-- Dynamically add order estimate in minutes -->
+                <span id="estimate">About 20-25 minutes</span>
+            </div>
         </div>
     </div>
 
