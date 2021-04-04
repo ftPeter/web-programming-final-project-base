@@ -147,8 +147,8 @@ ul.topnav li a.active {
 }
 
 #warning {
-  /* color: rgb(165, 42, 42); */
-  color: white;
+  color: rgba(137, 22, 22, 255);
   font-weight: bold;
   font-style: italic;
+  margin: 10px;
 }
