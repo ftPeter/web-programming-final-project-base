@@ -104,6 +104,9 @@ ul.topnav li a {
 li:last-child {
   border-right: none;
 }
+#signout {
+  float: right !important;
+}
 
 ul.topnav li a:hover:not(.active) {
   background-color: rgb(65, 65, 65);
