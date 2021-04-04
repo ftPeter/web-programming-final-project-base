@@ -56,6 +56,20 @@ div.leaders span {
   background-color: lightgray;
 }
 
+/* TOTAL */
+
+hr {
+  border: none;
+  height: 3px;
+  background-color: rgb(29, 29, 29);
+}
+
+#total {
+  text-align: right;
+  font-size: 20px;
+  padding-right: 2px;
+}
+
 /* INPUT */
 
 input[type="number"] {
@@ -78,6 +92,7 @@ input[type="submit"] {
   width: 150px;
   padding: 20px;
   cursor: pointer;
+  float: right;
 }
 
 ul.icon-and-title {
