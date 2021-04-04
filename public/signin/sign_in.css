@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 html,
@@ -15,6 +16,7 @@ body {
 .wrap {
   position: unset;
   place-items: center;
+  /* width: 500px; */
   height: 300px;
   background: #fff;
   padding: 30px;

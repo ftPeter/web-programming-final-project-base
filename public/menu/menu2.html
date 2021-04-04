@@ -6,7 +6,8 @@
     <title>Menu</title>
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
-    <script src="../validate/validate.js" defer></script>
+    <script src="menu.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -20,7 +21,6 @@
     <div>
         <ul class="topnav">
             <li><a class="active" href="../index.html">Home</a></li>
-            <li><a href="../confirmation/confirmation.html">Orders</a></li>
             <li><a href="../contact/contact.html">Contact</a></li>
         </ul>
     </div>
@@ -32,77 +32,93 @@
 
         <form action="/order" method="POST">
 
-            <span id="entrees">
+            <div id="entrees">
             
                 <h2>Bowls</h2>
+                <div id="warning"> **Please select at least one item from the entire menu </div>
                 <p>All bowls come with the following toppings: rice, pinto beans, shredded lettuce, shredded cheese, and mild salsa</p>
                 <div>
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="entree" value="DTB" id="dtb" min="0">
-                        <label for="dtb">Carnitas Rice Bowl 8.99</label>
+                        <label for="dtb">Carnitas Rice Bowl</label>
+                        <span>$8.99</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="entree" value="FCT" id="fct" min="0">
-                        <label for="fct">Marinated Beef Rice Bowl $8.99</label>
+                        <label for="fct">Marinated Beef Rice Bowl</label>
+                        <span>$8.99</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="entree" value="HAMB" id="hamb" min="0">
-                        <label for="hamb">Marinated Chicken Rice Bowl $8.99</label>
+                        <label for="hamb">Marinated Chicken Rice Bowl</label>
+                        <span>$8.99</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="entree" value="HDSB" id="hdsb" min="0">
-                        <label for="hdsb">Marinated Lentil Rice Bowl $8.99</label>
+                        <label for="hdsb">Marinated Lentil Rice Bowl</label>
+                        <span>$8.99</span>
                     </div>
                 
                 </div>
-            </span>
+            </div>
 
-            <span id="Sides_and_Drinks"> 
-                <h2>Side and Drinks </h2>
-                    <div>
+                <div id="sidesDrinks"> 
+                    <h2>Side and Drinks </h2>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="WT" id="wt" min="0">
-                        <label for="wt">Water $0.99</label>
+                        <label for="wt">Water</label>
+                        <span>$0.99</span>
                     </div>
                     
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="FD" id="fd" min="0">
-                        <label for="fd">Fountain Drink $1.99</label>
+                        <label for="fd">Fountain Drink</label>
+                        <span>$1.99</span>
                     </div>
                   
-                    <div>
+                    <div class= "leaders">
                         <input type= "number" name="Snd" value="guac" id="guac" min="0">
-                        <label for="guac">Guacomole $1.00</label>
+                        <label for="guac">Guacomole</label>
+                        <span>$1.00</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="CH" id="ch" min="0">
-                        <label for="ch">Shredded Cheddar Cheese $0.50</label>
+                        <label for="ch">Shredded Cheddar Cheese</label>
+                        <span>$0.50</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="TC" id="tc" min="0">
-                        <label for="tc">Tortilla Chips $1.99</label>
+                        <label for="tc">Tortilla Chips</label>
+                        <span>$1.99</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="SL" id="sals" min="0">
-                        <label for="sals">Salsa $0.50</label>
+                        <label for="sals">Salsa</label>
+                        <span>$0.50</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="TW" id="tw" min="0">
-                        <label for="tw">Extra Tortilla Wrap $0.75</label>
+                        <label for="tw">Extra Tortilla Wrap</label>
+                        <span>$0.75</span>
                     </div>
 
-                    <div>
+                    <div class= "leaders">
                         <input type="number" name="Snd" value="TW" id="sc" min="0">
-                        <label for="tw">Sour Cream $0.25</label>
+                        <label for="tw">Sour Cream</label>
+                        <span>$0.25</span>
                     </div>
-            </span>
-            <br>
+                    <hr>
+                    <div>
+                        <p id="total"><strong>Order Total: </strong>$0.00</p>
+                    </div>
+                </div>
             <input type="submit" value="Check Out">
         </form>
     </div>
