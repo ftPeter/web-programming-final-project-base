@@ -1,7 +1,8 @@
 let choseItem = false;
 
 $(document).ready(function () {
-    $("#menu").on("change", checkOrder, updateTotal)
+    $("#menu").on("change", checkOrder)
+    $("#menu").on("change", updateTotal)
     $('#menu').submit(validateCheckOut)
 
     // validate entrees and sides
@@ -10,7 +11,7 @@ $(document).ready(function () {
         let checkEntree = $('#entrees input[type="number"]').val();
         let checkSides = $('#sidesDrinks input[type="number"]').val();
 
-        totalItems += checkEntree + checkSides;
+        totalItems = checkEntree + checkSides;
 
         if (totalItems > 0) {
             $("#warning").hide();
@@ -36,7 +37,6 @@ $(document).ready(function () {
             }
         });
         $("#total")[0].innerText = "Order Total: $" + price.toFixed(2);
-        return price.toFixed(2);
     }   
 
     // validate that entrees and sides were chosen
