@@ -41,7 +41,7 @@ $(document).ready(function () {
                 price += (val * parseFloat(priceStr.substring(1)));
             }
         });
-        $("#total")[0].innerText = "Order Total: $" + price.toFixed(2);
+        $("#total")[0].innerHTML = "<strong>Order Total: </strong>$" + price.toFixed(2);
     }   
 
     // validate that entrees and sides were chosen
