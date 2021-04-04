@@ -24,13 +24,16 @@ express()
       // const last_name = (req.query.last) ? req.query.last : "";
       const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
 
-      let entree = "";
-      let sideList = "";
-      let order = "";
+    let entree = "";
+    let sideList = "";
+    let order = "";
+    let price = "";
+    
       if (req.query.entree) {
-        entree = req.query.entree;
+        entree = getEntrees(req.query);
         sideList = getSides(req.query);
         order = getOrderText(entree, sideList);
+        price = getTotal();
       }
       
       let menu_info = {customerId: customer_id,
@@ -258,7 +261,7 @@ function getOrderText(entree, sideList) {
 
 // Implement this
 function getSides(body) {
-    sides = [];
+    let sides = [];
     if (body.entree === "on")
         sides.push("Corn Bread")
     if (body.item1 === "on")
@@ -271,4 +274,15 @@ function getSides(body) {
         sides.push("Baked Beans")
 
     return sides;
+}
+
+// get the entrees from the customer order
+function getEntrees(body) {
+  let entrees = [];
+}
+
+// get the price total for the order
+function getTotal(body) {
+  let price = 0;
+  let items;
 }
