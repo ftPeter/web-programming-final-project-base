@@ -17,20 +17,23 @@ express()
   .set('view engine', 'ejs')
   .get('/test', (req, res) => res.render('pages/test', {users: ["John", "Paul", "Ringo"]}))
   .get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/signin/sign_in.html'));
   })
   .get('/order', (req, res) => {
       // const first_name = (req.query.first) ? req.query.first : "";
       // const last_name = (req.query.last) ? req.query.last : "";
       const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
 
-      let entree = "";
-      let sideList = ""
-      let order = "";
+    let entree = "";
+    let sideList = "";
+    let order = "";
+    let price = "";
+    
       if (req.query.entree) {
-        entree = req.query.entree;
+        entree = getEntrees(req.query);
         sideList = getSides(req.query);
         order = getOrderText(entree, sideList);
+        price = getTotal();
       }
       
       let menu_info = {customerId: customer_id,
@@ -60,7 +63,7 @@ express()
           // VALUES ('Hope', 'Dog', '12 Street St', 'Northampton, MA', 
           //         'Fake order foods 4', now(), 'Received') 
           // RETURNING id;
-          let query_text = "INSERT INTO order_table (customer_id ";
+          let query_text = "INSERT INTO order_table (customer_id, ";
           query_text += "food_order, order_time, order_status) ";
           query_text += "VALUES ('" + customer_id + "', '";
           query_text += order + "', now(), 'Received') RETURNING id;";
@@ -258,7 +261,7 @@ function getOrderText(entree, sideList) {
 
 // Implement this
 function getSides(body) {
-    sides = [];
+    let sides = [];
     if (body.entree === "on")
         sides.push("Corn Bread")
     if (body.item1 === "on")
@@ -271,4 +274,15 @@ function getSides(body) {
         sides.push("Baked Beans")
 
     return sides;
+}
+
+// get the entrees from the customer order
+function getEntrees(body) {
+  let entrees = [];
+}
+
+// get the price total for the order
+function getTotal(body) {
+  let price = 0;
+  let items;
 }

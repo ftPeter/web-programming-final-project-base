@@ -71,13 +71,13 @@ input[type="submit"] {
 
 h1 {
   position: relative;
-  color: white;
+  /* color: white; */
   text-align: center;
 }
 
 h2 {
   position: relative;
-  color: white;
+  /* color: white; */
   text-align: center;
 }
 

@@ -5,9 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="confirmation.css" />
-
-
-    <title>Orders</title>
+    <title>Order Confirmation</title>
 </head>
 
 <body>
@@ -18,7 +16,6 @@
                 <h1 id="title">UMass Pick-Up</h1>
             </li>
         </ul>
-
         <div>
             <ul class="topnav">
                 <li><a class="active" href="../index.html">Home</a></li>
@@ -26,30 +23,30 @@
             </ul>
         </div>
     </div>
-
     <div class="content">
         <h1 id="confirmation">ORDER CONFIRMATION</h1>
-
         <div class="order">
             <div id="order-num">
                 <p><strong>Order Confirmation #</strong></p>
                 <!-- Dynamically add order confirmation number -->
                 <p id="number"></p>
             </div>
-            
-            <div class="leaders">
-                <span><strong>Order Status:</strong></span>
-                <!-- Dynamically add order status -->
-                <span id="status"></span>
-            </div>
-            <div class="leaders">
-                <span><strong>Order Estimate:</strong></span>
-                <!-- Dynamically add order estimate in minutes -->
-                <span id="estimate">About 20-25 minutes</span>
+            <!-- Dynamically add menu items -->
+            <p id="menu-items"></p>
+            <hr>
+            <div id="order-info">
+                <!-- Dynamically add order total -->
+                <p id="total"><strong>Order Total: </strong></p>
+                <p id="estimate"><strong>Order Estimate: </strong>About 20-25 MIN</p>
             </div>
         </div>
+        <br>
+        <!-- Dynamically add order status -->
+        <div id="order-status">
+            <p><strong>Order Status:</strong></p>
+            <p id="status"></p>
+        </div>
     </div>
-
 </body>
 
 </html>
