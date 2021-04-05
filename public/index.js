@@ -11,13 +11,21 @@ const pool = new Pool({
 });
 
 express()
-  .use(express.static(path.join(__dirname, 'public')))
+  .use(express.static(path.join(__dirname, 'public'), {
+    index: false
+  }))
   .use(express.urlencoded({ extended: true }))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/test', (req, res) => res.render('pages/test', { users: ["John", "Paul", "Ringo"] }))
   .get('/', function (req, res) {
     res.sendFile(path.join(__dirname + 'signin/sign_in.html'));
+  })
+  .post('/order', (req, res) => {
+    const customer_id = "";
+    const entrees = req.body.entrees;
+    const sides = req.body.sidesDrinks;
+    const price = req.body.total;
   })
   .get('/order', (req, res) => {
       // const first_name = (req.query.first) ? req.query.first : "";

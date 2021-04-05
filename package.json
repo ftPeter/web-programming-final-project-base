@@ -5,9 +5,9 @@
   "engines": {
     "node": "12.x"
   },
-  "main": "index.js",
+  "main": "public/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node public/index.js",
     "test": "node test.js"
   },
   "dependencies": {
