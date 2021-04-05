@@ -19,7 +19,7 @@ express()
   .set('view engine', 'ejs')
   .get('/test', (req, res) => res.render('pages/test', { users: ["John", "Paul", "Ringo"] }))
   .get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + 'signin/sign_in.html'));
+    res.sendFile(path.join(__dirname + '/signin/sign_in.html'));
   })
   .post('/order', (req, res) => {
     const customer_id = "";
