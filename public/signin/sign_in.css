@@ -16,7 +16,6 @@ body {
 .wrap {
   position: unset;
   place-items: center;
-  /* width: 500px; */
   height: 300px;
   background: #fff;
   padding: 30px;
@@ -60,6 +59,7 @@ button {
   border: 1px solid #ccc;
   color: white;
   padding: 12px 176px;
+  width: 407px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
