@@ -15,7 +15,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     document.getElementById("pass").style.display = "block";
   }
 });
-document.getElementById("button").addEventListener("click", login);
+// document.getElementById("button").addEventListener("click", login);
 
 function login() {
   var email = document.getElementById("use").value;
