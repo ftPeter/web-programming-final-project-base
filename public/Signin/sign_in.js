@@ -15,7 +15,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     document.getElementById("pass").style.display = "block";
   }
 });
-document.getElementById("button").addEventListener("click", login);
+// document.getElementById("button").addEventListener("click", login);
 
 function login() {
   var email = document.getElementById("use").value;
@@ -49,12 +49,4 @@ function login() {
       var errorCode = error.code;
       var errorMessage = error.message;
     });
-}
-
-function logout() {
-  firebase.auth().signOut().then(() => {
-  // Sign-out successful.
-  }).catch((error) => {
-  // An error happened.
-});
 }

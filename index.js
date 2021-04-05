@@ -12,17 +12,23 @@ const pool = new Pool({
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
-  .use(express.urlencoded({extended: true}))
+  .use(express.urlencoded({ extended: true }))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/test', (req, res) => res.render('pages/test', {users: ["John", "Paul", "Ringo"]}))
-  .get('/', function(req, res) {
+  .get('/test', (req, res) => res.render('pages/test', { users: ["John", "Paul", "Ringo"] }))
+  .get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/signin/sign_in.html'));
+  })
+  .post('/order', (req, res) => {
+    const customer_id = "";
+    const entrees = req.body.entrees
+    const sides = req.body.sides
+    const total = req.body.total
   })
   .get('/order', (req, res) => {
       // const first_name = (req.query.first) ? req.query.first : "";
       // const last_name = (req.query.last) ? req.query.last : "";
-      const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
+    const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
 
     let entree = "";
     let sideList = "";
@@ -30,10 +36,10 @@ express()
     let price = "";
     
       if (req.query.entree) {
-        entree = getEntrees(req.query);
-        sideList = getSides(req.query);
+        entree = getEntrees(req.query.entrees);
+        sideList = getSides(req.query.sides);
         order = getOrderText(entree, sideList);
-        price = getTotal();
+        price = getTotal(req.query.total);
       }
       
       let menu_info = {customerId: customer_id,
