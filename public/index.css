@@ -104,8 +104,13 @@ ul.topnav li a {
 li:last-child {
   border-right: none;
 }
-#signout {
+
+ul.topnav li.signout {
   float: right !important;
+}
+
+li.signout a {
+  margin-right: 5px;
 }
 
 ul.topnav li a:hover:not(.active) {

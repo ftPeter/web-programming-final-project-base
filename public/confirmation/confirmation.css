@@ -125,6 +125,14 @@ li:last-child {
   border-right: none;
 }
 
+ul.topnav li.signout {
+  float: right !important;
+}
+
+li.signout a {
+  margin-right: 5px;
+}
+
 ul.topnav li a:hover:not(.active) {
   background-color: rgb(65, 65, 65);
 }
