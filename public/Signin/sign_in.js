@@ -5,17 +5,20 @@ firebase.auth().onAuthStateChanged(function (user) {
 
     var user = firebase.auth().currentUser;
 
+    var email, uid, token;
+
     if (user != null) {
-      var email = user.email;
+      email = user.email;
       uid = user.uid;
-      document.getElementById("p").innerHTML = "Welcome" + " " + email;
+      token = user.getToken();
     }
   } else {
     document.getElementById("use").style.display = "initial";
     document.getElementById("pass").style.display = "block";
   }
 });
-// document.getElementById("button").addEventListener("click", login);
+
+document.getElementById("button").addEventListener("click", login);
 
 function login() {
   var email = document.getElementById("use").value;
