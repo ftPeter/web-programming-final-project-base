@@ -50,11 +50,3 @@ function login() {
       var errorMessage = error.message;
     });
 }
-
-function logout() {
-  firebase.auth().signOut().then(() => {
-  // Sign-out successful.
-  }).catch((error) => {
-  // An error happened.
-});
-}
