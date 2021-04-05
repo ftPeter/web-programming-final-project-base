@@ -86,6 +86,6 @@ img {
 }
 
 #signin_link {
-  text-decoration: none;
+  /* text-decoration: none; */
   color: white;
 }
