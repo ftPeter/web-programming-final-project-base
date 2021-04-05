@@ -7,28 +7,7 @@
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
     <script src="menu.js" defer></script>
-    <!-- Firebase App is always required and must be first -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
-    <!-- Add additional services that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
-
-    <script>
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBJVOTUZhA5ZGmwuQYxOgO_ByPfN4mQ0YY",
-            authDomain: "umass-pickup.firebaseapp.com",
-            projectId: "umass-pickup",
-            storageBucket: "umass-pickup.appspot.com",
-            messagingSenderId: "826795779171",
-            appId: "1:826795779171:web:19b063e836b17e84a88456",
-            measurementId: "G-21J6NBT96F"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
-
-    <script src="../signin/sign_out.js"></script>
+    <script src="sign_in.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -44,7 +23,7 @@
         <ul class="topnav">
             <li><a class="active" href="../index.html">Home</a></li>
             <li><a href="../contact/contact.html">Contact</a></li>
-            <li class="signout"><a href="../signin/sign_in.html" onclick="logout()">Sign Out</a></li>
+            <li class="signout"><a href="signin/sign_in.html" onclick="logout()">Sign Out</a></li>
         </ul>
     </div>
 
@@ -60,85 +39,85 @@
                 <div id="warning"> **Please select at least one item from the entire menu </div>
                 <div>
                     <div class= "leaders">
-                        <input type="number" name="entree" value="AB" id="ab" min="0">
+                        <input type="number" name="entree" id="ab" min="0">
                         <label for="ab">Awesome Burger (Plant Based Bac'n Cheezeburger)</label>
                         <span>$5.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="BBBB" id="bbbb" min="0">
+                        <input type="number" name="entree" id="bbbb" min="0">
                         <label for="bbbb">Baby Berk Blue Burger</label>
                         <span>$5.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="BBB" id="bbb" min="0">
+                        <input type="number" name="entree" id="bbb" min="0">
                         <label for="bbb">Baby Berk Burger</label>
                         <span>$5.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="CB" id="cb" min="0">
+                        <input type="number" name="entree" id="cb" min="0">
                         <label for="cb">Chicken Burger</label>
                         <span>$5.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="CTFB" id="ctfb" min="0">
+                        <input type="number" name="entree" id="ctfb" min="0">
                         <label for="ctfb">Chicken Tenders & Fries Basket</label>
                         <span>$9.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="DB" id="db" min="0">
+                        <input type="number" name="entree" id="db" min="0">
                         <label for="db">Double Burger</label>
                         <span>$6.99</span>
                     </div>
                     
                     <div class= "leaders">
-                        <input type="number" name="entree" value="DCB" id="dcb" min="0">
+                        <input type="number" name="entree" id="dcb" min="0">
                         <label for="dcb">Double Chicken Burger</label>
                         <span>$6.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="DTB" id="dtb" min="0">
+                        <input type="number" name="entree" id="dtb" min="0">
                         <label for="dtb">Double Turkey Burger</label>
                         <span>$6.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="FCT" id="fct" min="0">
+                        <input type="number" name="entree" id="fct" min="0">
                         <label for="fct">Fried Chicken Tenders</label>
                         <span>$6.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="HAMB" id="hamb" min="0">
+                        <input type="number" name="entree" id="hamb" min="0">
                         <label for="hamb">Hamburger</label>
                         <span>$5.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="HDSB" id="hdsb" min="0">
+                        <input type="number" name="entree" id="hdsb" min="0">
                         <label for="hdsb">Hampden Gold'n Spicy Burger</label>
                         <span>$6.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="HB" id="hb" min="0">
+                        <input type="number" name="entree" id="hb" min="0">
                         <label for="hb">Hampshire Burger</label>
                         <span>$9.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="PBDB" id="pbdb" min="0">
+                        <input type="number" name="entree" id="pbdb" min="0">
                         <label for="pbdb"> Plant Based Double Mac'n Cheeze Burger</label>
                         <span>$9.99</span>
                     </div>
               
                     <div class= "leaders">
-                        <input type="number" name="entree" value="TB" id="tb" min="0">
+                        <input type="number" name="entree" id="tb" min="0">
                         <label for="tb">Turkey Burger</label>
                         <span>$9.99</span>
                     </div>
@@ -149,61 +128,61 @@
             <div id="sidesDrinks"> 
                 <h2>Side and Drinks </h2>
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="CM" id="cm" min="0">
+                        <input type="number" name="Snd" id="cm" min="0">
                         <label for="cm">Chocolate Milkshake</label>
                         <span>$5.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="SM" id="sm" min="0">
+                        <input type="number" name="Snd" id="sm" min="0">
                         <label for="sm">Strawberry Milkshake</label>
                         <span>$5.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="VM" id="vm" min="0">
+                        <input type="number" name="Snd" id="vm" min="0">
                         <label for="vm">Vanilla Milkshake</label>
                         <span>$5.99</span>
                     </div>
                     
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="AB" id="ff" min="0">
+                        <input type="number" name="Snd" id="ff" min="0">
                         <label for="ff">French Fries</label>
                         <span>$2.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="OR" id="or" min="0">
+                        <input type="number" name="Snd" id="or" min="0">
                         <label for="or">Onion Rings</label>
                         <span>$2.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="SS" id="ss" min="0">
+                        <input type="number" name="Snd" id="ss" min="0">
                         <label for="ss">Side Salad</label>
                         <span>$4.99</span>
                     </div> 
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="SPFF" id="SPFF" min="0">
+                        <input type="number" name="Snd" id="SPFF" min="0">
                         <label for="SPFF">Sweet Potato French Fries</label>
                         <span>$4.99</span>
                     </div> 
 
                     <div class= "leaders">
-                        <input type= "number" name="Snd" value="BS" id="bs" min="0">
+                        <input type= "number" name="Snd" id="bs" min="0">
                         <label for="bs">Bacon Slice</label>
                         <span>$0.75</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="FA" id="fa" min="0">
+                        <input type="number" name="Snd" id="fa" min="0">
                         <label for="fa">Fresh Avocado</label>
                         <span>$1.50</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="FE" id="fe" min="0"S>
+                        <input type="number" name="Snd" id="fe" min="0"S>
                         <label for="fe">Fried Egg</label>
                         <span>$1.99</span>
                     </div>
