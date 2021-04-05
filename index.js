@@ -19,12 +19,6 @@ express()
   .get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/signin/sign_in.html'));
   })
-  .post('/order', (req, res) => {
-    const customer_id = "";
-    const entrees = req.body.entrees
-    const sides = req.body.sides
-    const total = req.body.total
-  })
   .get('/order', (req, res) => {
       // const first_name = (req.query.first) ? req.query.first : "";
       // const last_name = (req.query.last) ? req.query.last : "";
