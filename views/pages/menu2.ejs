@@ -7,7 +7,28 @@
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
     <script src="menu.js" defer></script>
-    <script src="sign_in.js"></script>
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyBJVOTUZhA5ZGmwuQYxOgO_ByPfN4mQ0YY",
+            authDomain: "umass-pickup.firebaseapp.com",
+            projectId: "umass-pickup",
+            storageBucket: "umass-pickup.appspot.com",
+            messagingSenderId: "826795779171",
+            appId: "1:826795779171:web:19b063e836b17e84a88456",
+            measurementId: "G-21J6NBT96F"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="../signin/sign_out.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -23,7 +44,7 @@
         <ul class="topnav">
             <li><a class="active" href="../index.html">Home</a></li>
             <li><a href="../contact/contact.html">Contact</a></li>
-            <li class="signout"><a href="signin/sign_in.html" onclick="logout()">Sign Out</a></li>
+            <li class="signout"><a href="../signin/sign_in.html" onclick="logout()">Sign Out</a></li>
         </ul>
     </div>
 
@@ -41,25 +62,25 @@
                 <p>All bowls come with the following toppings: rice, pinto beans, shredded lettuce, shredded cheese, and mild salsa</p>
                 <div>
                     <div class= "leaders">
-                        <input type="number" name="entree" value="DTB" id="dtb" min="0">
+                        <input type="number" name="entree"  id="dtb" min="0">
                         <label for="dtb">Carnitas Rice Bowl</label>
                         <span>$8.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="entree" value="FCT" id="fct" min="0">
+                        <input type="number" name="entree" id="fct" min="0">
                         <label for="fct">Marinated Beef Rice Bowl</label>
                         <span>$8.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="entree" value="HAMB" id="hamb" min="0">
+                        <input type="number" name="entree" id="hamb" min="0">
                         <label for="hamb">Marinated Chicken Rice Bowl</label>
                         <span>$8.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="entree" value="HDSB" id="hdsb" min="0">
+                        <input type="number" name="entree" id="hdsb" min="0">
                         <label for="hdsb">Marinated Lentil Rice Bowl</label>
                         <span>$8.99</span>
                     </div>
@@ -70,49 +91,49 @@
                 <div id="sidesDrinks"> 
                     <h2>Side and Drinks </h2>
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="WT" id="wt" min="0">
+                        <input type="number" name="Snd"  id="wt" min="0">
                         <label for="wt">Water</label>
                         <span>$0.99</span>
                     </div>
                     
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="FD" id="fd" min="0">
+                        <input type="number" name="Snd"  id="fd" min="0">
                         <label for="fd">Fountain Drink</label>
                         <span>$1.99</span>
                     </div>
                   
                     <div class= "leaders">
-                        <input type= "number" name="Snd" value="guac" id="guac" min="0">
+                        <input type= "number" name="Snd"  id="guac" min="0">
                         <label for="guac">Guacomole</label>
                         <span>$1.00</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="CH" id="ch" min="0">
+                        <input type="number" name="Snd"  id="ch" min="0">
                         <label for="ch">Shredded Cheddar Cheese</label>
                         <span>$0.50</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="TC" id="tc" min="0">
+                        <input type="number" name="Snd"  id="tc" min="0">
                         <label for="tc">Tortilla Chips</label>
                         <span>$1.99</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="SL" id="sals" min="0">
+                        <input type="number" name="Snd" id="sals" min="0">
                         <label for="sals">Salsa</label>
                         <span>$0.50</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="TW" id="tw" min="0">
+                        <input type="number" name="Snd" id="tw" min="0">
                         <label for="tw">Extra Tortilla Wrap</label>
                         <span>$0.75</span>
                     </div>
 
                     <div class= "leaders">
-                        <input type="number" name="Snd" value="TW" id="sc" min="0">
+                        <input type="number" name="Snd" id="sc" min="0">
                         <label for="tw">Sour Cream</label>
                         <span>$0.25</span>
                     </div>
