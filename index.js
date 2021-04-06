@@ -21,14 +21,14 @@ express()
     res.sendFile(path.join(__dirname + "/index.html"));
   })
   .post("/save", async (req, res) => {
-    const name = req.name;
-    const days = req.days;
-    const building = req.building;
-    const hour = req.hour;
-    const minute = req.minute;
-    const time = req.time;
-    const room = req.room;
-    const classList = req.classList;
+    const name = req.body.name;
+    const days = req.body.days;
+    const building = req.body.building;
+    const hour = req.body.hour;
+    const minute = req.body.minute;
+    const time = req.body.time;
+    const room = req.body.room;
+    const classList = req.body.classList;
 
     let validClass =
       name !== "" &&
