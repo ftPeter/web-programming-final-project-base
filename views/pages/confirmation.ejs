@@ -29,21 +29,23 @@
             <div id="order-num">
                 <p><strong>Order Confirmation #</strong></p>
                 <!-- Dynamically add order confirmation number -->
-                <p id="number"><%= ordernumber %></p>
+                <p id="number">2345678</p>
             </div>
             <!-- Dynamically add menu items -->
-            <p id="menu-items"><%= order %></p>
+            <p id="menu-items"><%= order.entrees %><%= order.sides %></p>
             <hr>
             <div id="order-info">
                 <!-- Dynamically add order total -->
-                <p id="total"><strong>Order Total: </strong></p>
+                <p id="total"><strong>Order Total: <%= order.price %></strong></p>
                 <p id="estimate"><strong>Order Estimate: </strong>About 20-25 MIN</p>
             </div>
         </div>
         <br>
         <!-- Dynamically add order status -->
         <div id="order-status">
-            <p><strong>Order Status:</strong><%= order_status %></p>
+            <p><strong>Order Status:</strong>
+                Ready
+            </p>
             <p id="status"></p>
         </div>
     </div>

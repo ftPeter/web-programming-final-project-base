@@ -23,10 +23,11 @@
             <div class="inner_layout">
                 <form class="login">
                     <div class="input">
-                        <input id = "username" type="text" placeholder="Enter Username" name="username"/>
+                        <input id = "username" type="text" placeholder="Enter Username" name="username" pattern="\w+"/>
                     </div>
                     <div class="input">
-                        <input id = "password" type="password" placeholder="Enter Password" name="password"/>
+                        <!-- FIX THIS MINLENGTH DOESNT WORK -->
+                        <input id = "password" type="password" placeholder="Enter Password" name="password" minlength="6" autocomplete="current-password"/>
                     </div>
                     
                     <button id="signin">Login</button>

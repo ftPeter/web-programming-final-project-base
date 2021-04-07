@@ -45,10 +45,10 @@ express()
       res.json({token: token});
     } else {
       // Unauthorized access
-      res.status(401)
+      res.status(401);
     }
   })
-  .get("/api/auth", (req, res) => {
+  .get("/api/logout", (req, res) => {
       // TODO: set up authorization endpoint to sign out the user
   })
   .get('/api/orders', (req, res) => {
@@ -83,8 +83,12 @@ express()
     const sides = req.body.sides;
     const price = req.body.price;
 
+    let menu_info = {customerId: customer_id,
+                       order: {entrees: entrees, sides: sides, price: price}}
+
     if (validateMenu(customer_id, entrees, sides)) {
-      res.sendStatus(201);
+      let confirm_info = menu_info;
+      res.render('pages/confirmation', confirm_info);
     } else {
       res.sendStatus(400);
     }
