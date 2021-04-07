@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require("jwt-simple");
+const bcrypt = require("bcryptjs");
 const path = require('path');
 const router = express.Router()
 const PORT = process.env.PORT || 5000
@@ -27,30 +28,30 @@ express()
   .set('view engine', 'ejs')
   .get('/test', (req, res) => res.render('pages/test', { users: ["John", "Paul", "Ringo"] }))
   .get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/signin/sign_in.html'));
+    res.sendFile(path.join(__dirname + '/public/login/login.html'));
   })
-  // ENDPOINT for user authentication in signin page
+  // ENDPOINT for user authentication in login page
   .post("/api/auth", (req, res) => { 
     const username = req.body.username;
-    const password = req.body.password;
+    const hash = bcrypt.hashSync(req.body.password, 10);
 
     const payload = {
       username: username,
-      password: password
+      password: hash
     }
     
     const token = jwt.encode(payload, secret);
 
-    if (authenticate(username, password)) {
+    if (authenticate(username, hash)) {
       res.json({token: token});
     } else {
       // Unauthorized access
       res.status(401);
     }
   })
-  // ENDPOINT for user signout
+  // ENDPOINT for user logout
   .get("/api/logout", (req, res) => {
-      // TODO: set up authorization endpoint to sign out the user
+      // TODO: set up authorization endpoint to logout the user
   })
   // ENDPOINT for retrieving a user's order from /api/orders
   .get('/api/orders', (req, res) => {
@@ -61,16 +62,16 @@ express()
     let sides = "";
     let order = "";
     
-      if (req.query.entree || req.query.sides) {
+      if (req.query.entrees || req.query.sides) {
         entrees = getEntrees(req.query.entrees);
         sides = getSides(req.query.sides);
-        order = getOrder(entree, sides);
+        order = getOrder(entrees, sides);
       }
       
       let menu_info = {customerId: customer_id,
                        order: order}
 
-      if (validateMenu(customer_id, entree, sides)) {
+      if (validateMenu(entrees, sides)) {
         let confirm_info = menu_info;
 
         res.render('pages/confirmation', confirm_info);
@@ -88,7 +89,7 @@ express()
     let menu_info = {customerId: customer_id,
                        order: {entrees: entrees, sides: sides, price: price}}
 
-    if (validateMenu(customer_id, entrees, sides)) {
+    if (validateMenu(entrees, sides)) {
       let confirm_info = menu_info;
       res.render('pages/confirmation', confirm_info);
     } else {
@@ -98,12 +99,12 @@ express()
   })
   // ENDPOINT for posting the confirmation info on order confirmation page
   .post('/api/confirm', async (req, res) => {
-      const customer_id =  req.body.customerid;
-      const order          = req.body.order;
+      const customer_id = req.body.customerid;
+      const order = req.body.order;
 
       let confirm_info = {customerid: customer_id, order: order};
         
-      if (validateConfirm(customerid, order)) {
+      if (validateConfirm(order)) {
           // Push the new information to the database
           // and get the result for the new order number
           //
@@ -275,31 +276,29 @@ express()
  * * * * * * * * * * * * * * * * * * * * * *  
 */
 
-// validate that the user exists in the database and is using correct login
+// validate that the user is using correct login, and if they don't exist in DB, we create a new user
 function authenticate(username, password) {
   // TODO: set up user authentication
   return true;
 }
 
-// Add a new user to the database
+// add a new user to the database
 function addUser(username, password) {
 
 }
 
 // server side validation for the menu page submissions
-function validateMenu(customer_id, entrees, sides) {
-  const customer_token = window.localStorage.getItem("token");
-  return (entrees.length != 0 || sides.length != 0 && customer_id === customer_token);
+function validateMenu(entrees, sides) {
+  return (entrees.length != 0 || sides.length != 0);
 }
 
 // server side validaiton for the confirm page submissions
-function validateConfirm(customer_id, order) {
-  const customer_token = window.localStorage.getItem("token");
-  return (order.length != 0 && customer_id === customer_token);
+function validateConfirm(order) {
+  return (order.length != 0);
 }
 
 // build a single string formatted order from the 
-// entree and sides
+// entrees and sides
 // Implement this
 function getOrder(entrees, sideList) {
     order = entrees;
@@ -310,8 +309,7 @@ function getOrder(entrees, sideList) {
     return order;
 }
 
-// convert the item's buttons into strings
-// for each of the side dishes
+// get the side dishes from the customer order
 
 // TODO!!!
 function getSides(body) {

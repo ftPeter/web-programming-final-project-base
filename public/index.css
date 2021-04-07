@@ -105,11 +105,11 @@ li:last-child {
   border-right: none;
 }
 
-ul.topnav li.signout {
+ul.topnav li.logout {
   float: right !important;
 }
 
-li.signout a {
+li.logout a {
   margin-right: 5px;
 }
 

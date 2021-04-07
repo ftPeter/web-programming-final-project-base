@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#signin").click(login)
+    $("#login").click(login)
 });
 
 function login() {
