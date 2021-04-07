@@ -13,7 +13,7 @@ const pool = new Pool({
     }
 });
 
-// Secret used to encode/decode JWTs
+// secret used to encode/decode JWTs
 const secret = "supersecret";
 
 express()
@@ -29,8 +29,8 @@ express()
   .get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/signin/sign_in.html'));
   })
-  .post("/api/auth", (req, res) => {
-    console.log(req.body)
+  // ENDPOINT for user authentication in signin page
+  .post("/api/auth", (req, res) => { 
     const username = req.body.username;
     const password = req.body.password;
 
@@ -48,11 +48,12 @@ express()
       res.status(401);
     }
   })
+  // ENDPOINT for user signout
   .get("/api/logout", (req, res) => {
       // TODO: set up authorization endpoint to sign out the user
   })
+  // ENDPOINT for retrieving a user's order from /api/orders
   .get('/api/orders', (req, res) => {
-    console.log(req.query)
     const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
     const price = (req.query.price) ? req.query.price : "0.00";
 
@@ -77,6 +78,7 @@ express()
         res.render('pages/menu', menu_info);
       }
   })
+  // ENDPOINT for posting a user's order from the menu page to /api/orders
   .post('/api/orders', (req, res) => {
     const customer_id = req.body.customer_id;
     const entrees = req.body.entrees;
@@ -94,6 +96,7 @@ express()
     }
 
   })
+  // ENDPOINT for posting the confirmation info on order confirmation page
   .post('/api/confirm', async (req, res) => {
       const customer_id =  req.body.customerid;
       const order          = req.body.order;
@@ -145,7 +148,7 @@ express()
           res.render('pages/confirmation', confirm_info);
       }
   })
-  // /status is the customer facing status page
+  // ENDPOINT for customer facing status page using api/status
   .get('/api/status', async (req, res) => {
       // replace first_name and everything from body with only the order number
       // the order number should be used to retrieve everything from the database.
@@ -173,6 +176,7 @@ express()
         res.send("Error " + err);
       }
   })
+  // ENDPOINT for getting the service status of the customer order
   .get('/api/service', async (req, res) => {
     try {
       // query the db for all the orders
@@ -198,6 +202,7 @@ express()
         console.error(err); res.send("Error " + err);
     }
   })
+  // ENDPOINT for posting the status of the customer's order to api/service
   .post('/api/service', async (req, res) => {
     try {
       const order_number = req.body.id;
@@ -265,33 +270,32 @@ express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
-/*  HELPER FUNCTIONS BELOW 
- */
+/* * * * * * * * * * * * * * * * * * * * * *  
+ *          SERVER-SIDE FUNCTIONS          *
+ * * * * * * * * * * * * * * * * * * * * * *  
+*/
 
+// validate that the user exists in the database and is using correct login
 function authenticate(username, password) {
   // TODO: set up user authentication
   return true;
 }
+
+// Add a new user to the database
+function addUser(username, password) {
+
+}
+
 // server side validation for the menu page submissions
 function validateMenu(customer_id, entrees, sides) {
-    let valid = false;
-
-  if (entrees.length != 0 || sides.length != 0 && customer_id != null) {
-        valid = true;
-    }
-
-    return valid;
+  const customer_token = window.localStorage.getItem("token");
+  return (entrees.length != 0 || sides.length != 0 && customer_id === customer_token);
 }
 
 // server side validaiton for the confirm page submissions
-function validateConfirm(order) {
-    let valid = false;
-
-    if (order.length != 0 ) {
-        valid = true;
-    }
-
-    return valid;
+function validateConfirm(customer_id, order) {
+  const customer_token = window.localStorage.getItem("token");
+  return (order.length != 0 && customer_id === customer_token);
 }
 
 // build a single string formatted order from the 
