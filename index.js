@@ -1,6 +1,9 @@
 
-const express = require('express')
-const path = require('path')
+const express = require('express');
+const bodyParser = require('body-parser');
+const jwt = require("jwt-simple");
+const path = require('path');
+const router = express.Router()
 const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -10,44 +13,63 @@ const pool = new Pool({
     }
 });
 
+// Secret used to encode/decode JWTs
+const secret = "supersecret";
+
 express()
   .use(express.static(path.join(__dirname, 'public'), {
     index: false
   }))
   .use(express.urlencoded({ extended: true }))
+  .use(express.json())
+  .use("/api", router)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/test', (req, res) => res.render('pages/test', { users: ["John", "Paul", "Ringo"] }))
   .get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/signin/sign_in.html'));
   })
-  .post('/order', (req, res) => {
-    const customer_id = "";
-    const entrees = req.body.entrees;
-    const sides = req.body.sidesDrinks;
-    const total = req.body.total;
-  })
-  .get('/order', (req, res) => {
-      // const first_name = (req.query.first) ? req.query.first : "";
-      // const last_name = (req.query.last) ? req.query.last : "";
-    const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
+  .post("/api/auth", (req, res) => {
+    console.log(req.body)
+    const username = req.body.username;
+    const password = req.body.password;
 
-    let entree = "";
-    let sideList = "";
-    let order = "";
-    let price = "";
+    const payload = {
+      username: username,
+      password: password
+    }
     
-      if (req.query.entree) {
-        entree = getEntrees(req.query.entrees);
-        sideList = getSides(req.query.sides);
-        order = getOrderText(entree, sideList);
-        price = getTotal(req.query.total);
+    const token = jwt.encode(payload, secret);
+
+    if (authenticate(username, password)) {
+      res.json({token: token});
+    } else {
+      // Unauthorized access
+      res.status(401)
+    }
+  })
+  .get("/api/auth", (req, res) => {
+      // TODO: set up authorization endpoint to sign out the user
+  })
+  .get('/api/orders', (req, res) => {
+    console.log(req.query)
+    const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
+    const price = (req.query.price) ? req.query.price : "0.00";
+
+    let entrees = "";
+    let sides = "";
+    let order = "";
+    
+      if (req.query.entree || req.query.sides) {
+        entrees = getEntrees(req.query.entrees);
+        sides = getSides(req.query.sides);
+        order = getOrder(entree, sides);
       }
       
       let menu_info = {customerId: customer_id,
                        order: order}
 
-      if (validateMenu(customer_id, entree, sideList)) {
+      if (validateMenu(customer_id, entree, sides)) {
         let confirm_info = menu_info;
 
         res.render('pages/confirmation', confirm_info);
@@ -55,7 +77,20 @@ express()
         res.render('pages/menu', menu_info);
       }
   })
-  .post('/confirm', async (req, res) => {
+  .post('/api/orders', (req, res) => {
+    const customer_id = req.body.customer_id;
+    const entrees = req.body.entrees;
+    const sides = req.body.sides;
+    const price = req.body.price;
+
+    if (validateMenu(customer_id, entrees, sides)) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(400);
+    }
+
+  })
+  .post('/api/confirm', async (req, res) => {
       const customer_id =  req.body.customerid;
       const order          = req.body.order;
 
@@ -107,7 +142,7 @@ express()
       }
   })
   // /status is the customer facing status page
-  .get('/status', async (req, res) => {
+  .get('/api/status', async (req, res) => {
       // replace first_name and everything from body with only the order number
       // the order number should be used to retrieve everything from the database.
       const order_number = req.query.ordernumber;
@@ -134,7 +169,7 @@ express()
         res.send("Error " + err);
       }
   })
-  .get('/service', async (req, res) => {
+  .get('/api/service', async (req, res) => {
     try {
       // query the db for all the orders
       const client = await pool.connect();
@@ -159,7 +194,7 @@ express()
         console.error(err); res.send("Error " + err);
     }
   })
-  .post('/service', async (req, res) => {
+  .post('/api/service', async (req, res) => {
     try {
       const order_number = req.body.id;
 
@@ -229,12 +264,15 @@ express()
 /*  HELPER FUNCTIONS BELOW 
  */
 
+function authenticate(username, password) {
+  // TODO: set up user authentication
+  return true;
+}
 // server side validation for the menu page submissions
-function validateMenu(entrees, Sides_and_Drinks) {
+function validateMenu(customer_id, entrees, sides) {
     let valid = false;
 
-    if (entrees.length != 0 &&
-      Sides_and_Drinks.length != 0) {
+  if (entrees.length != 0 || sides.length != 0 && customer_id != null) {
         valid = true;
     }
 
@@ -255,8 +293,8 @@ function validateConfirm(order) {
 // build a single string formatted order from the 
 // entree and sides
 // Implement this
-function getOrderText(entree, sideList) {
-    order = entree;
+function getOrder(entrees, sideList) {
+    order = entrees;
 
     sideList.forEach(function(r) {
         order += ", " + r;
@@ -267,30 +305,28 @@ function getOrderText(entree, sideList) {
 // convert the item's buttons into strings
 // for each of the side dishes
 
-// Implement this
+// TODO!!!
 function getSides(body) {
     let sides = [];
-    if (body.entree === "on")
-        sides.push("Corn Bread")
-    if (body.item1 === "on")
-        sides.push("Creamed Corn")
-    if (body.item2 === "on")
-        sides.push("Green Beans")
-    if (body.item3 === "on")
-        sides.push("Mashed Potatos")
-    if (body.item4 === "on")
-        sides.push("Baked Beans")
 
     return sides;
 }
 
 // get the entrees from the customer order
+
+// TODO!!!
 function getEntrees(body) {
   let entrees = [];
+
+  return entrees;
 }
 
 // get the price total for the order
+
+// TODO!!!
 function getTotal(body) {
   let price = 0;
   let items;
+
+  return price;
 }

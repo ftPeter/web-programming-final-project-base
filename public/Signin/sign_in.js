@@ -1,55 +1,33 @@
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    document.getElementById("use").style.display = "block";
-    document.getElementById("pass").style.display = "initial";
-
-    var user = firebase.auth().currentUser;
-
-    var email, uid, token;
-
-    if (user != null) {
-      email = user.email;
-      uid = user.uid;
-      token = user.getToken();
-    }
-  } else {
-    document.getElementById("use").style.display = "initial";
-    document.getElementById("pass").style.display = "block";
-  }
+$(document).ready(function () {
+    $("#signin").click(login)
 });
 
-// document.getElementById("button").addEventListener("click", login);
-
 function login() {
-  var email = document.getElementById("use").value;
-  var password = document.getElementById("pass").value;
+  var username = $("#username").val();
+  var password = $("#password").val();
 
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ..
+  const requestAuth = {
+    username: username,
+    password: password
+  }
 
-      window.alert(errorMessage);
+  // POST a request with the JSON-encoded username and password to /api/auth
+    $.ajax({
+        type: "POST",
+        url: "/api/auth",
+        data: JSON.stringify(requestAuth),
+        contentType: "application/json"
+    }).done(function (data) {
+        // Reset the form after saving the order
+      $("form").trigger("reset");
+      const token = data.token;
+      window.localStorage.setItem("token", token);
+      window.open("../index.html", "_self");
+    }).fail(function (jqXHR) {
+        $("error").html("Invalid Login");
     });
+}
 
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-    });
+function logout() {
+   
 }

@@ -82,7 +82,7 @@ input[type="number"] {
   text-align: center;
 }
 
-input[type="submit"] {
+input[type="button"] {
   border: 2px solid;
   border-radius: 10px;
   background-color: rgba(137, 22, 22, 255);
@@ -169,7 +169,8 @@ ul.topnav li a.active {
   }
 }
 
-#warning {
+#warning,
+#error {
   color: rgba(137, 22, 22, 255);
   font-weight: bold;
   font-style: italic;

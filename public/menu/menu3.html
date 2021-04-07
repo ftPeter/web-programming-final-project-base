@@ -7,12 +7,6 @@
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link href="menu.css" rel="stylesheet">
     <script src="menu.js" defer></script>
-    <!-- Firebase App is always required and must be first -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
-    <!-- Add additional services that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
-
-    <script src="../signin/sign_out.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -37,8 +31,7 @@
         <h1> Deli Delish Menu</h1>
         <p id="instructions"><strong>Instructions:</strong><br>Please choose quantity of your desired menu item(s).</p>
 
-        <form action="/order" method="POST">
-
+        <form>
             <div id="entrees">
             <h2>Entrees</h2>
             <div id="warning"> **Please select at least one item from the entire menu </div>
@@ -142,7 +135,8 @@
                         <p id="total"><strong>Order Total: </strong>$0.00</p>
                     </div>
             </div>
-            <input type="submit" value="Check Out">
+            <input type="button" id="checkout" value="Check Out">
+            <div id="error"></div>
         </form>
     </div>
     <br>
