@@ -15,6 +15,7 @@ const pool = new Pool({
 
 // secret used to encode/decode JWTs
 const secret = "supersecret";
+let customer = "";
 
 express()
   .use(express.static(path.join(__dirname, 'public'), {
@@ -24,15 +25,28 @@ express()
   .use(express.json())
   .use("/api", router)
   .get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/login/login.html'));
+    res.sendFile(path.join(__dirname + '/public/authentication/login.html'));
   })
   // ENDPOINT for user logout
-  .get('/api/auth', (req, res) => {
-    
+  .get('/api/status', (req, res) => {
+    if (!req.headers["x-auth"]) {
+      res.sendStatus(401).json({ error: "Missing X-Auth header" });
+    }
+    const token = req.headers["x-auth"];
+    try {
+      const decoded = jwt.decode(token, secret);
+      if (decoded.username === customer) {
+        res.sendStatus(200);
+      }
+    } catch (exception) {
+      console.trace(exception);
+      res.sendStatus(500);
+    }
   })
   // ENDPOINT for user authentication in login page
-  .post("/api/auth", (req, res) => { 
-    const username = req.body.username;
+  .post("/api/auth", (req, res) => {
+    customer = req.body.username;
+    const username = customer;
     const hash = bcrypt.hashSync(req.body.password, 10);
 
     const payload = {

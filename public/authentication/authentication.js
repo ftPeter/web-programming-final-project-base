@@ -1,5 +1,8 @@
 $(document).ready(function () {
-    $("#login").click(login)
+  // Login customer 
+  $("#login").click(login);
+  // Logout customer
+  $("#logout").click(logout);
 });
 
 function login() {
@@ -15,8 +18,8 @@ function login() {
     }
     // POST a request with the JSON-encoded username and password to /api/auth
     $.ajax({
-        type: "POST",
         url: "/api/auth",
+        type: "POST",
         data: JSON.stringify(requestAuth),
         contentType: "application/json"
     }).done(function (data) {
@@ -28,11 +31,25 @@ function login() {
     }).fail(function (jqXHR) {
         $("#error").show();
     });
-  } 
-  $("#error").show();
+  } else {
+      $("#error").show();
+  }
   
 }
 
 function logout() {
-
+    const token = localStorage.getItem("token");
+    $.ajax({
+        url: "/api/status",
+        type: "GET",
+        headers: {"X-Auth": token}
+    }).done(function (data) {
+        // Clear the local token created on login amd the customer's id
+      localStorage.clear();
+        // Redirect back to home page
+        location.href = "/";
+    }).fail(function (jqXHR) {
+        $("#error").html = ("Error logging out");
+        $("#error").show();
+    });
 }
