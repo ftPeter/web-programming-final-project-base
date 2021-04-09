@@ -1,5 +1,3 @@
-let choseItem = false;
-
 $(document).ready(function () {
     $("#menu").on("change", validateOrder)
     $("#menu").on("change", updateTotal)
@@ -22,42 +20,55 @@ function validateOrder(){
     if (totalItems > 0) {
         // Hide the warning if the customer has chosen an entree or side
         $("#warning").hide();
-        choseItem = true;
+        return true;
     }
     else {
         // Display the warning if the customer hasn't chosen anything
         $("#warning").show();
-        choseItem = false;
+        return false;
     }
 }
 
 // Update the total whenever something has changed on the menu
 function updateTotal() {
-    let price = 0;
-    let items = $('input[type="number"]');
-
-    $.each(items, function (index, value) {
-
-        if (parseInt($(value).val()) >= 1) {
-            val = parseInt($(value).val())
-            priceStr = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
-            price += (val * parseFloat(priceStr.substring(1)));
-        }
-    });
-    price = price.toFixed(2);
-    $("#total")[0].innerHTML = "<strong>Order Total: </strong>$" + price;
-    return price;
+    $("#total")[0].innerHTML = "<strong>Order Total: </strong>$" + getTotal();
 }   
 
 // Do the checkout for the user
 function checkout() {
-    const customer_id = window.localStorage.getItem("token");
-    const total = updateTotal();
-    const entrees = $('#entrees input[type="number"]');
-    const sides = $('#sidesDrinks input[type="number"]');
+
+    // Create order
+    if (validateOrder()) {
+        const order = {
+            customer_id: localStorage.getItem("customerID"),
+            entrees: getEntrees(),
+            sides: getSides(),
+            price: getTotal(),
+        }
+        // POST a request with the JSON-encoded order to /orders
+        $.ajax({
+            type: "POST",
+            url: "/api/orders",
+            data: JSON.stringify(order),
+            contentType: "application/json"
+        }).done(function (data) {
+            // Reset the form after saving the order
+            $("form").trigger("reset");
+        }).fail(function (jqXHR) {
+            $("error").html("The order could not be sent. Please try again");
+        });
+    }
+
+}
+
+/* * * * * * * * * * * * * * * * * * * * * *  
+ *     HELPER FUNCTIONS for checkout()     *
+ * * * * * * * * * * * * * * * * * * * * * *  
+*/
+
+function getEntrees() {
+    let entrees = $('#entrees input[type="number"]');
     let entreesList = [];
-    let sidesList = [];
-    let order;
 
     // Get entrees
     $.each(entrees, function (index, value) {
@@ -73,6 +84,12 @@ function checkout() {
             });
         }
     });
+    return entreesList;
+}
+
+function getSides() {
+    let sides = $('#sidesDrinks input[type="number"]');
+    let sidesList = [];
 
     // Get sides
     $.each(sides, function (index, value) {
@@ -88,28 +105,18 @@ function checkout() {
             });
         }
     });
+    return sidesList;
+}
 
-    // Create order
-    if (choseItem) {
-        order = {
-            customer_id: customer_id,
-            entrees: entreesList,
-            sides: sidesList,
-            price: total,
-        } 
-    }
-
-    // POST a request with the JSON-encoded order to /orders
-    $.ajax({
-        type: "POST",
-        url: "/api/orders",
-        data: JSON.stringify(order),
-        contentType: "application/json"
-    }).done(function (data) {
-        // Reset the form after saving the order
-        $("form").trigger("reset");
-    }).fail(function (jqXHR) {
-        $("error").html("The order could not be sent. Please try again");
+function getTotal() {
+    let price = 0.0;
+    let html = $('input[type="number"]');
+    $.each(html, function (index, value) {
+        if (parseInt($(value).val()) >= 1) {
+            val = parseInt($(value).val())
+            priceStr = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
+            price += (val * parseFloat(priceStr.substring(1)));
+        }
     });
-
+    return price.toFixed(2);
 }

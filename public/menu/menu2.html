@@ -8,6 +8,7 @@
     <link href="menu.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="menu.js" defer></script>
+    <script src="../login/logout.js"></script>
 </head>
 
 <body>
@@ -22,7 +23,7 @@
         <ul class="topnav">
             <li><a class="active" href="../index.html">Home</a></li>
             <li><a href="../contact/contact.html">Contact</a></li>
-            <li class="logout"><a href="../login/login.html" onclick="logout()">Sign Out</a></li>
+            <li class="logout"><a id="#logout">Sign Out</a></li>
         </ul>
     </div>
 
@@ -34,7 +35,7 @@
         <form>
             <div id="entrees">
                 <h2>Bowls</h2>
-                <div id="warning"> **Please select at least one item from the entire menu </div>
+                <div id="warning" hidden> **Please select at least one item from the entire menu </div>
                 <p>All bowls come with the following toppings: rice, pinto beans, shredded lettuce, shredded cheese, and mild salsa</p>
                 <div>
                     <div class= "leaders">

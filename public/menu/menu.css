@@ -173,6 +173,5 @@ ul.topnav li a.active {
 #error {
   color: rgba(137, 22, 22, 255);
   font-weight: bold;
-  font-style: italic;
   margin: 10px;
 }

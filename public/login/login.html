@@ -22,16 +22,16 @@
         <div class="layout">
             <div class="inner_layout">
                 <form class="login">
-                    <div class="input">
-                        <input id = "username" type="text" placeholder="Enter Username" name="username" pattern="\w+"/>
+                    <div id="error" hidden>
+                        <p>Invalid Login</p>
                     </div>
                     <div class="input">
-                        <!-- FIX THIS MINLENGTH DOESNT WORK -->
-                        <input id = "password" type="password" placeholder="Enter Password" name="password" minlength="6" autocomplete="current-password"/>
+                        <input id = "username" type="text" placeholder="Enter Username" name="username"/>
                     </div>
-                    
-                    <button id="login">Login</button>
-                </form>
+                    <div class="input">
+                        <input id = "password" type="password" placeholder="Enter Password" name="password"/>
+                    </div>
+                    <input type="button" id="login" value="Login">
                 </form>
             </div>
         </div>
