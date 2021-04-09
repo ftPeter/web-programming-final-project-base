@@ -77,10 +77,13 @@ function getEntrees() {
             val = parseInt($(value).val())
             // Get the entree label
             entree = value.nextSibling.nextSibling.innerText;
-            // Push the the entree with its quantity to entreesList
+            // Get the price of the individual entree
+            price = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
+            // Push the the entree with its quantity and price to entreesList
             entreesList.push({
                 entree: entree,
-                quantity: val
+                quantity: val,
+                price: price
             });
         }
     });
@@ -96,12 +99,15 @@ function getSides() {
 
         if (parseInt($(value).val()) >= 1) {
             val = parseInt($(value).val())
-            // Get the entree label
+            // Get the side label
             side = value.nextSibling.nextSibling.innerText;
-            // Push the the entree with its quantity to entreesList
+            // Get the price of the individual side
+            price = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
+            // Push the the side with its quantity and price to sidesList
             sidesList.push({
                 side: side,
-                quantity: val
+                quantity: val,
+                price: price
             });
         }
     });

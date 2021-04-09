@@ -79,21 +79,20 @@ express()
     }
 
     if (validateMenu(entrees, sides, price)) {
-      res.sendStatus(204).json(), menu_info;
+      // TODO: GEt CUSTOMER ORDER FROM DATABASE
+      res.sendStatus(204).json(menu_info);
     } else {
-      res.render('pages/menu', menu_info);
+      res.sendStatus(404);
     }
 
   })
   // ENDPOINT for posting a user's order from the menu page to /api/orders
   .post('/api/orders', (req, res) => {
-    const customer_id = req.body.customer_id;
-    const entrees = req.body.entrees;
-    const sides = req.body.sides;
-    const price = req.body.price;
+    const order = req.body;
 
-    if (validateMenu(entrees, sides)) {
-      res.redirect('/confirmation/confirmation.html');
+    if (validateMenu(order.entrees, order.sides)) {
+      // TODO: ADD CUSTOMER ORDER TO DATABASE
+      res.sendStatus(200);
     } else {
       res.sendStatus(400);
     }
@@ -151,8 +150,8 @@ express()
           res.render('pages/confirmation', confirm_info);
       }
   })
-  // ENDPOINT for customer facing status page using api/status
-  .get('/api/status', async (req, res) => {
+  // ENDPOINT for customer facing status page using api/order-status
+  .get('/api/order-status', async (req, res) => {
       // replace first_name and everything from body with only the order number
       // the order number should be used to retrieve everything from the database.
       const order_number = req.query.ordernumber;
