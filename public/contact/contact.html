@@ -8,12 +8,8 @@
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="contact.css">
     <script src="contact.js"></script>
-    <!-- Firebase App is always required and must be first -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
-    <!-- Add additional services that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+    <script src="../authentication/authentication.js"></script>
 
-    <script src="../signin/sign_out.js"></script>
 </head>
 
 <body>
@@ -28,7 +24,7 @@
         <ul class="topnav">
             <li><a class="active" href="../index.html">Home</a></li>
             <li><a href="../contact/contact.html">Contact</a></li>
-            <li class="signout"><a href="../signin/sign_in.html" onclick="logout()">Sign Out</a></li>
+            <li class="logout"><button id="logout">Sign Out</button></li>
         </ul>
     </div>
 

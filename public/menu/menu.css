@@ -26,6 +26,13 @@ body {
   margin: auto;
 }
 
+#warning,
+#error {
+  color: rgba(137, 22, 22, 255);
+  font-weight: bold;
+  margin: 10px;
+}
+
 /* MENU DOT LEADERS */
 
 div.leaders {
@@ -82,7 +89,7 @@ input[type="number"] {
   text-align: center;
 }
 
-input[type="submit"] {
+input[type="button"] {
   border: 2px solid;
   border-radius: 10px;
   background-color: rgba(137, 22, 22, 255);
@@ -146,15 +153,23 @@ li:last-child {
   border-right: none;
 }
 
-ul.topnav li.signout {
+ul.topnav li.logout {
   float: right !important;
 }
 
-li.signout a {
-  margin-right: 5px;
+li.logout button {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border-style: none;
+  font-size: 25px;
+  background-color: rgb(29, 29, 29);
 }
 
-ul.topnav li a:hover:not(.active) {
+ul.topnav li a:hover:not(.active),
+ul.topnav li button:hover:not(.active) {
   background-color: rgb(65, 65, 65);
 }
 
@@ -167,11 +182,4 @@ ul.topnav li a.active {
   ul.topnav li {
     float: none;
   }
-}
-
-#warning {
-  color: rgba(137, 22, 22, 255);
-  font-weight: bold;
-  font-style: italic;
-  margin: 10px;
 }

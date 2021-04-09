@@ -1,6 +1,9 @@
 
-const express = require('express')
-const path = require('path')
+const express = require('express');
+const jwt = require("jwt-simple");
+const bcrypt = require("bcryptjs");
+const path = require('path');
+const router = express.Router();
 const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -10,58 +13,99 @@ const pool = new Pool({
     }
 });
 
+// secret used to encode/decode JWTs
+const secret = "supersecret";
+let customer = "";
+
 express()
   .use(express.static(path.join(__dirname, 'public'), {
     index: false
   }))
   .use(express.urlencoded({ extended: true }))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/test', (req, res) => res.render('pages/test', { users: ["John", "Paul", "Ringo"] }))
+  .use(express.json())
+  .use("/api", router)
   .get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/signin/sign_in.html'));
+    res.sendFile(path.join(__dirname + '/public/authentication/login.html'));
   })
-  .post('/order', (req, res) => {
-    const customer_id = "";
-    const entrees = req.body.entrees;
-    const sides = req.body.sidesDrinks;
-    const total = req.body.total;
+  // ENDPOINT for user logout
+  .get('/api/status', (req, res) => {
+    if (!req.headers["x-auth"]) {
+      res.sendStatus(401).json({ error: "Missing X-Auth header" });
+    }
+    const token = req.headers["x-auth"];
+    try {
+      const decoded = jwt.decode(token, secret);
+      if (decoded.username === customer) {
+        res.sendStatus(200);
+      }
+    } catch (exception) {
+      console.trace(exception);
+      res.sendStatus(500);
+    }
   })
-  .get('/order', (req, res) => {
-      // const first_name = (req.query.first) ? req.query.first : "";
-      // const last_name = (req.query.last) ? req.query.last : "";
+  // ENDPOINT for user authentication in login page
+  .post("/api/auth", (req, res) => {
+    customer = req.body.username;
+    const username = customer;
+    const hash = bcrypt.hashSync(req.body.password, 10);
+
+    const payload = {
+      username: username,
+      password: hash
+    }
+    // Create a token for the customer
+    const token = jwt.encode(payload, secret);
+    // Get an authentication object from the database
+    authentication = authenticate(username, hash);
+    if (authentication.authorized) {
+      res.json({token: token, customer_id: authentication.ID});
+    } else {
+      // Unauthorized access
+      res.sendStatus(401);
+    }
+  })
+  // ENDPOINT for retrieving a user's order from /api/orders to display on confirmation page
+  .get('/api/orders', (req, res) => {
     const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
-
-    let entree = "";
-    let sideList = "";
-    let order = "";
-    let price = "";
-    
-      if (req.query.entree) {
-        entree = getEntrees(req.query.entrees);
-        sideList = getSides(req.query.sides);
-        order = getOrderText(entree, sideList);
-        price = getTotal(req.query.total);
-      }
+    const price = (req.query.price) ? req.query.price : "$0.00";
+    const entrees = (req.query.entrees) ? req.query.entrees : [];
+    const sides = (req.query.entrees) ? req.query.entrees : [];
       
-      let menu_info = {customerId: customer_id,
-                       order: order}
+    let menu_info = {
+      customerId: customer_id,
+      price: price,
+      entrees: entrees,
+      sides: sides
+    }
 
-      if (validateMenu(customer_id, entree, sideList)) {
-        let confirm_info = menu_info;
+    if (validateMenu(entrees, sides, price)) {
+      // TODO: GEt CUSTOMER ORDER FROM DATABASE
+      res.sendStatus(204).json(menu_info);
+    } else {
+      res.sendStatus(404);
+    }
 
-        res.render('pages/confirmation', confirm_info);
-      } else {
-        res.render('pages/menu', menu_info);
-      }
   })
-  .post('/confirm', async (req, res) => {
-      const customer_id =  req.body.customerid;
-      const order          = req.body.order;
+  // ENDPOINT for posting a user's order from the menu page to /api/orders
+  .post('/api/orders', (req, res) => {
+    const order = req.body;
+
+    if (validateMenu(order.entrees, order.sides)) {
+      // TODO: ADD CUSTOMER ORDER TO DATABASE
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
+
+  })
+  // ENDPOINT for posting the confirmation info to DB on order confirmation page
+  .post('/api/confirm', async (req, res) => {
+      const customer_id = req.body.customerid;
+      const order = req.body.order;
 
       let confirm_info = {customerid: customer_id, order: order};
         
-      if (validateConfirm(customerid, order)) {
+      if (validateConfirm(order)) {
           // Push the new information to the database
           // and get the result for the new order number
           //
@@ -89,9 +133,9 @@ express()
               const select_result = await client.query('SELECT * FROM order_table WHERE id = ' + order_number);
               const results = (select_result) ? select_result.rows[0] : null;
 
-              const order_status   = results.order_status;
-              const customer_id     = results.customer_id;
-              const order          = results.food_order;
+              const order_status = results.order_status;
+              const customer_id = results.customer_id;
+              const order = results.food_order;
 
               let customer_info = {customerID:customer_id, order: order, ordernumber: order_number,
                                    orderstatus: order_status};
@@ -106,8 +150,8 @@ express()
           res.render('pages/confirmation', confirm_info);
       }
   })
-  // /status is the customer facing status page
-  .get('/status', async (req, res) => {
+  // ENDPOINT for customer facing status page using api/order-status
+  .get('/api/order-status', async (req, res) => {
       // replace first_name and everything from body with only the order number
       // the order number should be used to retrieve everything from the database.
       const order_number = req.query.ordernumber;
@@ -120,9 +164,9 @@ express()
         const results = (result) ? result.rows[0] : null;
       
         // assemble the local variables for the order status
-        const order_status   = results.order_status;
-        const customer_id     = results.customer_id;
-        const order          = results.food_order;
+        const order_status = results.order_status;
+        const customer_id = results.customer_id;
+        const order = results.food_order;
 
         let customer_info = {customerID:customer_id, order: order, ordernumber: order_number,
           orderstatus: order_status};
@@ -134,7 +178,8 @@ express()
         res.send("Error " + err);
       }
   })
-  .get('/service', async (req, res) => {
+  // ENDPOINT for getting the service status of the customer order
+  .get('/api/service', async (req, res) => {
     try {
       // query the db for all the orders
       const client = await pool.connect();
@@ -159,7 +204,8 @@ express()
         console.error(err); res.send("Error " + err);
     }
   })
-  .post('/service', async (req, res) => {
+  // ENDPOINT for posting the status of the customer's order to api/service
+  .post('/api/service', async (req, res) => {
     try {
       const order_number = req.body.id;
 
@@ -180,9 +226,9 @@ express()
       if (old_status === 'Received')
         new_status = 'Cooking';
       else if (old_status === 'Cooking')
-        new_status = 'Out For Delivery';
+        new_status = 'Ready';
       else 
-        new_status = 'Delivered';
+        new_status = 'Picked Up';
 
       // update the db with the new status
       await client.query("UPDATE order_table set order_status='" + new_status + "' where id=" + order_number);
@@ -226,71 +272,32 @@ express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 
-/*  HELPER FUNCTIONS BELOW 
- */
+/* * * * * * * * * * * * * * * * * * * * * *  
+ *          SERVER-SIDE FUNCTIONS          *
+ * * * * * * * * * * * * * * * * * * * * * *  
+*/
+
+// validate that the user is using correct login, and if they don't exist in DB, we create a new user
+function authenticate(username, password) {
+  // TODO: set up user authentication
+  authentication = {
+    authorized: true,
+    ID: 1
+  }
+  return authentication;
+}
+
+// add a new user to the database
+function addUser(username, password) {
+
+}
 
 // server side validation for the menu page submissions
-function validateMenu(entrees, Sides_and_Drinks) {
-    let valid = false;
-
-    if (entrees.length != 0 &&
-      Sides_and_Drinks.length != 0) {
-        valid = true;
-    }
-
-    return valid;
+function validateMenu(entrees, sides, price) {
+  return (entrees.length != 0 || sides.length != 0 && price != "$0.00");
 }
 
 // server side validaiton for the confirm page submissions
 function validateConfirm(order) {
-    let valid = false;
-
-    if (order.length != 0 ) {
-        valid = true;
-    }
-
-    return valid;
-}
-
-// build a single string formatted order from the 
-// entree and sides
-// Implement this
-function getOrderText(entree, sideList) {
-    order = entree;
-
-    sideList.forEach(function(r) {
-        order += ", " + r;
-    });
-    return order;
-}
-
-// convert the item's buttons into strings
-// for each of the side dishes
-
-// Implement this
-function getSides(body) {
-    let sides = [];
-    if (body.entree === "on")
-        sides.push("Corn Bread")
-    if (body.item1 === "on")
-        sides.push("Creamed Corn")
-    if (body.item2 === "on")
-        sides.push("Green Beans")
-    if (body.item3 === "on")
-        sides.push("Mashed Potatos")
-    if (body.item4 === "on")
-        sides.push("Baked Beans")
-
-    return sides;
-}
-
-// get the entrees from the customer order
-function getEntrees(body) {
-  let entrees = [];
-}
-
-// get the price total for the order
-function getTotal(body) {
-  let price = 0;
-  let items;
+  return (order.length != 0);
 }

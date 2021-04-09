@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/authentication/login.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/authentication/authentication.js"></script>
+
+    <title>UMass Pick-Up</title>
+</head>
+
+<body>
+    <img src="../images/umass_circle_logo.png" alt="UMass Amherst logo."><br></a> <br>
+    <h1>Welcome to UMass Pick-Up Service Website</h1>
+    <h2 id = "p">Please sign in using your Net ID and Password</h2>
+    <div class="wrap">
+        <div class="login_text">
+            <div class="login_title">Login Form</div>
+        </div>
+        <div class="layout">
+            <div class="inner_layout">
+                <form class="login">
+                    <div id="error" hidden>
+                        <p>Invalid Login</p>
+                    </div>
+                    <div class="input">
+                        <input id = "username" type="text" placeholder="Enter Username" name="username"/>
+                    </div>
+                    <div class="input">
+                        <input id = "password" type="password" placeholder="Enter Password" name="password"/>
+                    </div>
+                    <input type="button" id="login" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

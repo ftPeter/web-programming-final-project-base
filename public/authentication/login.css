@@ -1,0 +1,94 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+html,
+body {
+  background-color: lightgray;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.wrap {
+  position: unset;
+  place-items: center;
+  height: 300px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+}
+
+.wrap .login_text {
+  display: flex;
+  width: 200%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
+}
+
+.login {
+  place-items: center;
+  right: 500px;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 12px 120px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="username"] {
+  padding: 12px 120px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+input[type="button"] {
+  background-color: maroon;
+  display: block;
+  border: 1px solid #ccc;
+  color: white;
+  padding: 12px 176px;
+  width: 407px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.login_title {
+  text-align: left;
+  font-size: larger;
+}
+
+h1 {
+  position: relative;
+  text-align: center;
+}
+
+h2 {
+  position: relative;
+  text-align: center;
+}
+
+img {
+  position: absolute;
+  margin-top: 24px;
+  height: 100px;
+  left: 24px;
+}
+
+#error p {
+  padding: 4px 0px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(137, 22, 22, 255);
+}

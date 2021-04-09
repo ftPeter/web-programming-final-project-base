@@ -5,12 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="confirmation.css" />
-    <!-- Firebase App is always required and must be first -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
-    <!-- Add additional services that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
 
-    <script src="../signin/sign_out"></script>
     <title>Order Confirmation</title>
 </head>
 
@@ -26,7 +21,6 @@
             <ul class="topnav">
                 <li><a class="active" href="../index.html">Home</a></li>
                 <li><a href="../contact/contact.html">Contact</a></li>
-                <li class="signout"><a href="../signin/sign_in.html" onclick="logout()">Sign Out</a></li>
             </ul>
         </div>
     </div>
@@ -39,12 +33,11 @@
                 <p id="number"></p>
             </div>
             <!-- Dynamically add menu items -->
-            <p id="menu-items"></p>
+            <div id="menu-items"></div>
             <hr>
             <div id="order-info">
                 <!-- Dynamically add order total -->
                 <p id="total"><strong>Order Total: </strong></p>
-                <p id="estimate"><strong>Order Estimate: </strong>About 20-25 MIN</p>
             </div>
         </div>
         <br>
@@ -52,6 +45,11 @@
         <div id="order-status">
             <p><strong>Order Status:</strong></p>
             <p id="status"></p>
+        </div>
+        <br>
+        <div id="order-estimate">
+            <p><strong>Order Estimate:</strong></p>
+            <p id="estimate">About 20-25 MIN</p>
         </div>
     </div>
 </body>
