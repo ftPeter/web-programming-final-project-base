@@ -62,16 +62,13 @@ express()
       authentication = await authenticate(username, hash);
       if (authentication.authorized) {
           res.json({ token: token, customer_id: authentication.ID });
-          return;
         } else {
           // Unauthorized access
           res.sendStatus(401);
-          return;
         }
     } catch (error) {
       console.trace(error);
       res.sendStatus(500);
-      return;
     }
   })
   // ENDPOINT for retrieving a user's order from /api/orders to display on confirmation page
@@ -82,11 +79,13 @@ express()
        3. assign menu info variables with returned order variable
        4. make sure customer_id is an integer, total is a string, entrees and sides are arrays
     */
+    
+    
 
     const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
       
     let menu_info = {
-      customerId: customer_id,
+      customer_id: customer_id,
       total: total,
       entrees: entrees,
       sides: sides
@@ -257,9 +256,12 @@ express()
 
 // validate that the user is using correct login, and if they don't exist in DB, we create a new user
 async function authenticate(username, password) {
+  let query_text = "SELECT customer_id, password_hash " ;
+      query_text += "FROM customer " ;
+      query_text += "WHERE username='" + username + "';";
   try {
     const client = await pool.connect();
-    const results = await client.query("SELECT customer_id, password_hash FROM customer WHERE username ='" + username + "'");
+    const results = await client.query(query_text);
     // If the user is in the database
     if (results.rows.length > 0) {
       return { authorized: (bcrypt.compare(password, results.rows[0].password_hash)), ID: results.rows[0].customer_id };
@@ -275,21 +277,18 @@ async function authenticate(username, password) {
 // add a new user to the database
 async function addUser(username, password) {
   // For an empty table
-  var customer_id;
+  let customer_id = 1;
 
-  // Get last customer
-  try {
-    const client = await pool.connect();
-    const results = await client.query("SELECT MAX(customer_id) FROM customer;");
-    customer_id = (results.rows[0].max != null) ? results.rows[0].max + 1 : 1;
-    client.release();
-  } catch (err) {
-    console.trace(err);
-  }
   // Add new customer to database
+  let query_text = "INSERT INTO customer (username, password_hash) ";
+      query_text += "VALUES('" + username + "','" + password + "') ";
+      query_text += "RETURNING customer_id;"
   try {
     const client = await pool.connect();
-    await client.query("INSERT INTO customer (customer_id, username, password_hash) VALUES(" + customer_id + "," + "'" + username + "' ," + "'" + password + "');");
+    results = await client.query(query_text);
+    if (results.rows.length > 0) {
+      customer_id = results.rows[0].customer_id;
+    }
     client.release();
   } catch (err) {
     console.trace(err);

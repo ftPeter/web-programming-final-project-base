@@ -37,7 +37,7 @@ div.leaders {
   list-style: none;
 }
 
-div.leaders label:after {
+div.leaders p:after {
   float: left;
   width: 0;
   white-space: nowrap;
@@ -47,7 +47,7 @@ div.leaders label:after {
     ". . . . . . . . . . . . . . . . . . . . ";
 }
 
-div.leaders label {
+div.leaders p {
   padding-right: 0.4em;
   background-color: lightgray;
 }
