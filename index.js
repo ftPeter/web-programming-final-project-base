@@ -195,34 +195,8 @@ express()
         res.send("Error " + err);
       }
   })
-  // ENDPOINT for getting the service status of the customer order
-  .get('/api/service', async (req, res) => {
-    try {
-      // query the db for all the orders
-      const client = await pool.connect();
-      const result = await client.query('SELECT * FROM order_table');
-      const results = (result) ? result.rows : null;
-
-      // format the db results into orders for rendering
-      let orders = [];
-      for( let i=0; i<results.length; i++ ) {
-          let o = results[i];
-          orders.push({ timestamp: o.order_time,
-                        order: o.food_order,
-                        id: o.id,
-                        customerID: o.customer_id,
-                        orderstatus: o.order_status});
-      }
-
-      // render the page with the orders
-      res.render('pages/servicestatus', {orders: orders}); 
-      client.release();
-    } catch (err) { 
-        console.error(err); res.send("Error " + err);
-    }
-  })
-  // ENDPOINT for posting the status of the customer's order to api/service
-  .post('/api/service', async (req, res) => {
+  // ENDPOINT for posting the status of the customer's order to api/order-status
+  .post('/api/order-status', async (req, res) => {
     try {
       const order_number = req.body.id;
 
@@ -248,7 +222,7 @@ express()
         new_status = 'Picked Up';
 
       // update the db with the new status
-      await client.query("UPDATE order_table set order_status='" + new_status + "' where id=" + order_number);
+      await client.query("UPDATE order_table set status='" + new_status + "' where id=" + order_number);
 
       // query the db for all the orders
       const order_result = await client.query('SELECT * FROM order_table');
@@ -258,11 +232,12 @@ express()
       let orders = [];
       for( let i=0; i<results.length; i++ ) {
           let o = results[i];
-          orders.push({  timestamp: o.order_time,
-                        order: o.food_order,
-                        id: o.id,
-                        customerID: o.customer_id,
-                        orderstatus: o.order_status});
+          orders.push({
+            order: o.food_order,
+            id: o.id,
+            customerID: o.customer_id,
+            orderstatus: o.order_status
+          });
       }
 
       // render the page with the orders
@@ -270,20 +245,6 @@ express()
       client.release();
     } catch (err) { 
         console.error(err); res.send("Error " + err);
-    }
-  })
-
-  // /db is a debugging view into the complete order_table database table
-  .get('/db', async (req, res) => {
-    try {
-      const client = await pool.connect();
-      const result = await client.query('SELECT * FROM order_table');
-      const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/db', results );
-      client.release();
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
     }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
