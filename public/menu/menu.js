@@ -35,7 +35,7 @@ function updateTotal() {
 }   
 
 // Do the checkout for the user
-function checkout() {
+async function checkout() {
     // Create order
     if (validateOrder()) {
         const order = {
@@ -53,7 +53,7 @@ function checkout() {
         }).done(function (data) {
             // Reset the form after saving the order
             $("form").trigger("reset");
-            location.href = "/confirmation/confirmation.html"
+            location.href = "/confirmation/confirmation.html";
         }).fail(function (jqXHR) {
             $("error").html("The order could not be sent. Please try again");
         });
