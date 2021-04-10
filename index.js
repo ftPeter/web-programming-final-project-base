@@ -6,6 +6,8 @@ const path = require('path');
 const router = express.Router();
 const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
+// environment variables
+require('dotenv').config();
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -44,7 +46,7 @@ express()
     }
   })
   // ENDPOINT for user authentication in login page
-  .post("/api/auth", (req, res) => {
+  .post("/api/auth", async (req, res) => {
     customer = req.body.username;
     const username = customer;
     const hash = bcrypt.hashSync(req.body.password, 10);
@@ -56,30 +58,41 @@ express()
     // Create a token for the customer
     const token = jwt.encode(payload, secret);
     // Get an authentication object from the database
-    authentication = authenticate(username, hash);
-    if (authentication.authorized) {
-      res.json({token: token, customer_id: authentication.ID});
-    } else {
-      // Unauthorized access
-      res.sendStatus(401);
+    try {
+      authentication = await authenticate(username, hash);
+      if (authentication.authorized) {
+          res.json({ token: token, customer_id: authentication.ID });
+          return;
+        } else {
+          // Unauthorized access
+          res.sendStatus(401);
+          return;
+        }
+    } catch (error) {
+      console.trace(error);
+      res.sendStatus(500);
+      return;
     }
   })
   // ENDPOINT for retrieving a user's order from /api/orders to display on confirmation page
-  .get('/api/orders', (req, res) => {
+  .get('/api/orders/:customer_id', (req, res) => {
+    // TODO: GET CUSTOMER ORDER FROM DATABASE
+    /* 1. get customer id from customer table using the global customer variable
+       2. get the order row based on customer_id foreign key
+       3. assign menu info variables with returned order variable
+       4. make sure customer_id is an integer, total is a string, entrees and sides are arrays
+    */
+
     const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
-    const price = (req.query.price) ? req.query.price : "$0.00";
-    const entrees = (req.query.entrees) ? req.query.entrees : [];
-    const sides = (req.query.entrees) ? req.query.entrees : [];
       
     let menu_info = {
       customerId: customer_id,
-      price: price,
+      total: total,
       entrees: entrees,
       sides: sides
     }
 
-    if (validateMenu(entrees, sides, price)) {
-      // TODO: GEt CUSTOMER ORDER FROM DATABASE
+    if (validateMenu(entrees, sides, total)) {
       res.sendStatus(204).json(menu_info);
     } else {
       res.sendStatus(404);
@@ -88,6 +101,10 @@ express()
   })
   // ENDPOINT for posting a user's order from the menu page to /api/orders
   .post('/api/orders', (req, res) => {
+    // TODO: POST CUSTOMER ORDER TO DATABASE
+    /* 1. insert order information into the order table with customer id
+       2. 
+    */
     const order = req.body;
 
     if (validateMenu(order.entrees, order.sides)) {
@@ -98,8 +115,8 @@ express()
     }
 
   })
-  // ENDPOINT for posting the confirmation info to DB on order confirmation page
-  .post('/api/confirm', async (req, res) => {
+  // ENDPOINT for updating the confirmation info to DB on order confirmation page
+  .put('/api/confirm', async (req, res) => {
       const customer_id = req.body.customerid;
       const order = req.body.order;
 
@@ -278,18 +295,45 @@ express()
 */
 
 // validate that the user is using correct login, and if they don't exist in DB, we create a new user
-function authenticate(username, password) {
-  // TODO: set up user authentication
-  authentication = {
-    authorized: true,
-    ID: 1
-  }
-  return authentication;
+async function authenticate(username, password) {
+  try {
+    const client = await pool.connect();
+    const results = await client.query("SELECT customer_id, password_hash FROM customer WHERE username ='" + username + "'");
+    // If the user is in the database
+    if (results.rows.length > 0) {
+      return { authorized: (bcrypt.compare(password, results.rows[0].password_hash)), ID: results.rows[0].customer_id };
+    }
+    client.release();
+  } catch (err) {
+    console.trace(err);
+  } 
+  // Otherwise, they are a new user, so we add them to the database and give them access 
+  return { authorized: true, ID: addUser(username, password) };
 }
 
 // add a new user to the database
-function addUser(username, password) {
+async function addUser(username, password) {
+  // For an empty table
+  var customer_id;
 
+  // Get last customer
+  try {
+    const client = await pool.connect();
+    const results = await client.query("SELECT MAX(customer_id) FROM customer;");
+    customer_id = (results.rows[0].max != null) ? results.rows[0].max + 1 : 1;
+    client.release();
+  } catch (err) {
+    console.trace(err);
+  }
+  // Add new customer to database
+  try {
+    const client = await pool.connect();
+    await client.query("INSERT INTO customer (customer_id, username, password_hash) VALUES(" + customer_id + "," + "'" + username + "' ," + "'" + password + "');");
+    client.release();
+  } catch (err) {
+    console.trace(err);
+  }
+  return customer_id;
 }
 
 // server side validation for the menu page submissions

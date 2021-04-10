@@ -5,7 +5,7 @@ $(document).ready(function () {
   $("#logout").click(logout);
 });
 
-function login() {
+async function login() {
   let username = $("#username").val();
   let password = $("#password").val();
 
@@ -28,7 +28,7 @@ function login() {
         localStorage.setItem("token", data.token);
         localStorage.setItem("customerID", data.customer_id);
         open("../index.html", "_self");
-    }).fail(function (jqXHR) {
+    }).fail(function () {
         $("#error").show();
     });
   } else {
@@ -37,7 +37,7 @@ function login() {
   
 }
 
-function logout() {
+async function logout() {
     const token = localStorage.getItem("token");
     $.ajax({
         url: "/api/status",
@@ -48,7 +48,7 @@ function logout() {
       localStorage.clear();
         // Redirect back to home page
         location.href = "/";
-    }).fail(function (jqXHR) {
+    }).fail(function () {
         $("#error").html = ("Error logging out");
         $("#error").show();
     });
