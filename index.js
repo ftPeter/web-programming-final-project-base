@@ -80,9 +80,7 @@ express()
        4. make sure customer_id is an integer, total is a string, entrees and sides are arrays
     */
     
-    
-
-    const customer_id = (req.query.customer_id) ? req.query.customer_id : "";
+    const customer_id = (req.params.customer_id) ? req.params.customer_id : "";
       
     let menu_info = {
       customer_id: customer_id,
@@ -116,78 +114,63 @@ express()
   })
   // ENDPOINT for updating the confirmation info to DB on order confirmation page
   .put('/api/confirm', async (req, res) => {
-      const customer_id = req.body.customerid;
-      const order = req.body.order;
+    const customer_id = req.body.customerid;
+    const order = req.body.order;
+  
+    // CREATE ORDER STRING
+      
+    if (validateConfirm(order)) {
+        // Push the new information to the database
+        // and get the result for the new order number
+        let query_text = "INSERT INTO order_table (c_id, customer_order, status) ";
+            query_text += "VALUES ('" + customer_id + "', '" + order + "', 'Received')";
+            query_text += "RETURNING c_id;";
 
-      let confirm_info = {customerid: customer_id, order: order};
-        
-      if (validateConfirm(order)) {
-          // Push the new information to the database
-          // and get the result for the new order number
-          //
-          // example insert
-          // INSERT INTO order_table (first_name, last_name, street_address, 
-          //                          city_address, food_order, order_time, order_status)
-          // VALUES ('Hope', 'Dog', '12 Street St', 'Northampton, MA', 
-          //         'Fake order foods 4', now(), 'Received') 
-          // RETURNING id;
-          let query_text = "INSERT INTO order_table (customer_id, ";
-          query_text += "food_order, order_time, order_status) ";
-          query_text += "VALUES ('" + customer_id + "', '";
-          query_text += order + "', now(), 'Received') RETURNING id;";
+        try {
+          const client = await pool.connect();
 
-          try {
-              const client = await pool.connect();
+          // INSERT the new order information
+          const result = await client.query(query_text);
 
-              // INSERT the new order information
-              const result = await client.query(query_text);
+          // get the new ID number returned from the INSERT query
+          const order_number = (result.rows.length > 0) ? result.rows[0].c_id : null; 
 
-              // get the new ID number returned from the INSERT query
-              const order_number = (result) ? result.rows[0].id : null; 
+          // with the new order number, get the appropriate customer info
+          const select_result = await client.query('SELECT * FROM order_table WHERE c_id = ' + order_number);
+          const results = (select_result) ? select_result.rows[0] : null;
 
-              // with the new order number, get the appropriate customer info
-              const select_result = await client.query('SELECT * FROM order_table WHERE id = ' + order_number);
-              const results = (select_result) ? select_result.rows[0] : null;
+          const order_status = results.order_status;
+          const customer_id = results.c_id;
+          const order = results.order;
 
-              const order_status = results.order_status;
-              const customer_id = results.customer_id;
-              const order = results.food_order;
+          let customer_info = {
+            customer_id: customer_id,
+            order: order,
+            ordernumber: order_number,                      
+            orderstatus: order_status
+          };
 
-              let customer_info = {customerID:customer_id, order: order, ordernumber: order_number,
-                                   orderstatus: order_status};
-
-              res.render('pages/customerstatus', customer_info);
-              client.release();
-           } catch (err) {
-              console.error(err);
-              res.send("Error " + err);
-           }
-      } else {
-          res.render('pages/confirmation', confirm_info);
-      }
+          res.json(customer_info);
+          client.release();
+        } catch (err) {
+          console.error(err);
+          res.send("Error " + err);
+        }
+    } else {
+        res.send(400);
+    }
   })
-  // ENDPOINT for customer facing status page using api/order-status
+  // ENDPOINT for getting the status of the order from confirmation page using api/order-status
   .get('/api/order-status', async (req, res) => {
-      // replace first_name and everything from body with only the order number
-      // the order number should be used to retrieve everything from the database.
-      const order_number = req.query.ordernumber;
+      const customer_id = req.query.customer_id;
      
-      // retrieve order info from database, determined by ordernumber
-      //
+      // retrieve the order status from database, determined by customer_id
       try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM order_table WHERE id = ' + order_number);
-        const results = (result) ? result.rows[0] : null;
-      
-        // assemble the local variables for the order status
-        const order_status = results.order_status;
-        const customer_id = results.customer_id;
-        const order = results.food_order;
+        const results = await client.query('SELECT status FROM order_table WHERE c_id = ' + customer_id);
+        const status = (results.rows.length > 0) ? results.rows[0].status : null;
 
-        let customer_info = {customerID:customer_id, order: order, ordernumber: order_number,
-          orderstatus: order_status};
-
-        res.render('pages/customerstatus', customer_info);
+        res.json({order_status: status});
         client.release();
       } catch (err) {
         console.error(err);
@@ -195,18 +178,17 @@ express()
       }
   })
   // ENDPOINT for posting the status of the customer's order to api/order-status
-  .post('/api/order-status', async (req, res) => {
+  .put('/api/order-status', async (req, res) => {
     try {
-      const order_number = req.body.id;
+      const customer_id = req.body.customer_id;
 
       // GET THE CURRENT ORDER_STATUS
       const client = await pool.connect();
-      const old_status_result = await client.query('SELECT order_status FROM order_table WHERE id=' + order_number);
+      const old_status_result = await client.query('SELECT status FROM order_table WHERE c_id=' + customer_id);
     
-      old_status = old_status_result.rows[0].order_status;
+      old_status = old_status_result.rows[0].status;
 
-      // EXAMPLE UPDATE
-      // update order_table set order_status='Cooking' where id=1;
+      // POSSIBLE ORDER STATUS LIST
       // 
       // 'Received' -> 'Cooking'
       // 'Cooking' -> 'Out For Delivery'
@@ -221,26 +203,9 @@ express()
         new_status = 'Picked Up';
 
       // update the db with the new status
-      await client.query("UPDATE order_table set status='" + new_status + "' where id=" + order_number);
+      await client.query("UPDATE order_table set status='" + new_status + "' where c_id=" + customer_id);
 
-      // query the db for all the orders
-      const order_result = await client.query('SELECT * FROM order_table');
-      const results = (order_result) ? order_result.rows : null;
-
-      // format the db results into orders for rendering
-      let orders = [];
-      for( let i=0; i<results.length; i++ ) {
-          let o = results[i];
-          orders.push({
-            order: o.food_order,
-            id: o.id,
-            customerID: o.customer_id,
-            orderstatus: o.order_status
-          });
-      }
-
-      // render the page with the orders
-      res.render('pages/servicestatus', {orders: orders}); 
+      res.sendStatus(200); 
       client.release();
     } catch (err) { 
         console.error(err); res.send("Error " + err);
