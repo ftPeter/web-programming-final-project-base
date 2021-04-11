@@ -30,7 +30,7 @@ express()
     res.sendFile(path.join(__dirname + '/public/authentication/login.html'));
   })
   // ENDPOINT for user logout
-  .get('/api/status', (req, res) => {
+  .get('/api/status', function (req, res) {
     if (!req.headers["x-auth"]) {
       res.sendStatus(401).json({ error: "Missing X-Auth header" });
     }
@@ -46,20 +46,20 @@ express()
     }
   })
   // ENDPOINT for user authentication in login page
-  .post("/api/auth", async (req, res) => {
+  .post("/api/auth", async function (req, res) {
     customer = req.body.username;
     const username = customer;
-    const hash = bcrypt.hashSync(req.body.password, 10);
+    const password = req.body.password;
 
     const payload = {
       username: username,
-      password: hash
+      password: password
     }
     // Create a token for the customer
     const token = jwt.encode(payload, secret);
     // Get an authentication object from the database
     try {
-      authentication = await authenticate(username, hash);
+      authentication = await authenticate(username, password);
       if (authentication.authorized) {
           res.json({ token: token, customer_id: authentication.ID });
         } else {
@@ -72,18 +72,17 @@ express()
     }
   })
   // ENDPOINT for retrieving a user's order from /api/orders to display on confirmation page
-  .get('/api/orders/:customer_id', async (req, res) => {
-    // Get the customer id to query the DB with
-    const customer_id = (req.params.customer_id) ? req.params.customer_id : "";
+  .get('/api/orders/:confirm_num', async function (req, res) {
+    // Get the confirm_num to query the DB with
+    const order_num = (req.params.confirm_num) ? req.params.confirm_num : "";
     // Create returning order information variable
-    const c_id = parseInt(customer_id);
     let order;
 
-    if (c_id != "") {
-      
+    if (order_num != "") {
+      const confirm_num = parseInt(order_num);
 
       let query_text = "SELECT * FROM order_table ";
-          query_text += "WHERE c_id=" + c_id;
+          query_text += "WHERE confirm_num=" + confirm_num + ";";
 
       try{
         const client = await pool.connect();
@@ -92,7 +91,7 @@ express()
         const result = await client.query(query_text);
 
         if (result.rows.length > 0) {
-          const results = result.rows[result.rows.length-1];
+          const results = result.rows[0];
           order = {
             customer_order: JSON.parse(results.customer_order),
             confirm_num: results.confirm_num,
@@ -102,14 +101,14 @@ express()
         res.json(order);
         client.release();
       } catch (err) {
-        console.error(err);
+        console.trace(err);
         res.send("Error " + err);
       }
     }
 
   })
   // ENDPOINT for posting a user's order from the menu page to /api/orders
-  .post('/api/orders', async (req, res) => {
+  .post('/api/orders', async function (req, res) {
     const c_id = req.body.customer_id;
     const entrees = req.body.entrees;
     const sides = req.body.sides;
@@ -124,49 +123,51 @@ express()
     if (validateMenu(entrees, sides, total)) {
 
       let query_text = "INSERT INTO order_table (c_id, customer_order, status) ";
-          query_text += "VALUES (" + c_id + ",'" + customer_order + "', 'Received');";
+          query_text += "VALUES (" + c_id + ",'" + customer_order + "', 'Received') RETURNING confirm_num;";
 
       try{
         const client = await pool.connect();
       
         //Insert the new order information
-        await client.query(query_text);
+        const result = await client.query(query_text);
+        if (result.rows.length > 0) {
+          res.json({ confirm_num: result.rows[0].confirm_num });
+        }
 
-        res.sendStatus(200);
         client.release();
       } catch (err) {
-        console.error(err);
+        console.trace(err);
         res.send("Error " + err);
       }
     }
   })
   // ENDPOINT for getting the status of the order from confirmation page using api/order-status
-  .get('/api/order-status', async (req, res) => {
-      const customer_id = req.query.customer_id;
+  .get('/api/order-status', async function (req, res) {
+      const confirm_num = req.query.confirm_num;
      
-      // retrieve the order status from database, determined by customer_id
+      // retrieve the order status from database, determined by confirm_num
       try {
         const client = await pool.connect();
-        const results = await client.query('SELECT status FROM order_table WHERE c_id = ' + customer_id);
+        const results = await client.query('SELECT status FROM order_table WHERE confirm_num=' + confirm_num + ";");
         const status = (results.rows.length > 0) ? results.rows[0].status : null;
 
         res.json({order_status: status});
         client.release();
       } catch (err) {
-        console.error(err);
+        console.trace(err);
         res.send("Error " + err);
       }
   })
   // ENDPOINT for posting the status of the customer's order to api/order-status
-  .put('/api/order-status', async (req, res) => {
+  .put('/api/order-status', async function (req, res) {
     try {
-      const customer_id = req.body.customer_id;
+      const confirm_num = req.body.confirm_num;
 
       // GET THE CURRENT ORDER_STATUS
       const client = await pool.connect();
-      const old_status_result = await client.query('SELECT status FROM order_table WHERE c_id=' + customer_id);
-    
-      old_status = old_status_result.rows[0].status;
+      const result = await client.query('SELECT status FROM order_table WHERE confirm_num=' + confirm_num + ";");
+      
+      const old_status = result.rows[0].status;
 
       // POSSIBLE ORDER STATUS LIST
       // 
@@ -182,12 +183,12 @@ express()
         new_status = 'Picked Up';
 
       // update the db with the new status
-      await client.query("UPDATE order_table set status='" + new_status + "' where c_id=" + customer_id);
+      await client.query("UPDATE order_table SET status='" + new_status + "' WHERE confirm_num=" + confirm_num + ";");
 
       res.sendStatus(200); 
       client.release();
     } catch (err) { 
-        console.error(err); res.send("Error " + err);
+        console.trace(err); res.send("Error " + err);
     }
   })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
@@ -208,7 +209,7 @@ async function authenticate(username, password) {
     const results = await client.query(query_text);
     // If the user is in the database
     if (results.rows.length > 0) {
-      return { authorized: (bcrypt.compare(password, results.rows[0].password_hash)), ID: results.rows[0].customer_id };
+      return { authorized: (bcrypt.compareSync(password, results.rows[0].password_hash)), ID: results.rows[0].customer_id };
     }
     client.release();
   } catch (err) {
@@ -222,10 +223,11 @@ async function authenticate(username, password) {
 async function addUser(username, password) {
   // For an empty table
   let customer_id = 1;
-
+  // Create hash for password
+  const hash = bcrypt.hashSync(password, 10);
   // Add new customer to database
   let query_text = "INSERT INTO customer (username, password_hash) ";
-      query_text += "VALUES('" + username + "','" + password + "') ";
+      query_text += "VALUES('" + username + "','" + hash + "') ";
       query_text += "RETURNING customer_id;"
   try {
     const client = await pool.connect();

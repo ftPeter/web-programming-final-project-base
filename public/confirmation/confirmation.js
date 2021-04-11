@@ -1,13 +1,15 @@
 $(document).ready(function () {
     loadOrderConfirmation();
-    setInterval(updateStatus, 5 * 60 * 1000);
+    setInterval(updateStatus, 2 * 60 * 1000);
+    $("#refresh").click(refreshStatus);
 });
 
-function loadOrderConfirmation() {
+async function loadOrderConfirmation() {
     $.ajax({
-        url: "/api/orders/" + localStorage.getItem("customerID"),
-        type: "GET",
+        url: "/api/orders/" + localStorage.getItem("confirmNumber"),
+        type: "GET"
     }).done(function (data) {
+        console.log(data)
         let html = "";
         if (!$.isEmptyObject(data)) {
             const order = data.customer_order;
@@ -32,9 +34,28 @@ function loadOrderConfirmation() {
 }
 
 async function updateStatus() {
-
+    $.ajax({
+        url: "/api/order-status",
+        type: "PUT",
+        data: JSON.stringify({confirm_num: localStorage.getItem("confirmNumber")})  
+    }).done(function (data) {
+        refreshStatus();
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
 }
 
-async function getStatus() {
-    
+async function refreshStatus() {
+    NProgress.start();
+    $.ajax({
+        url: "/api/order-status/?confirm_num=" + localStorage.getItem("confirmNumber"),
+        type: "GET"
+    }).done(function (data) {
+        const order_status = data.order_status;
+        console.log(order_status);
+        $("#status").html(order_status);
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
+    NProgress.done();
 }
