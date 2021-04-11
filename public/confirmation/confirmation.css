@@ -8,6 +8,8 @@ body {
 
 .content {
   font-family: "Open Sans Condensed", sans-serif;
+  width: fit-content;
+  margin: auto;
 }
 
 img {
@@ -154,6 +156,29 @@ ul.topnav li a {
 
 li:last-child {
   border-right: none;
+}
+
+/* CHECK STATUS BUTTON */
+
+input[type="button"] {
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: rgba(137, 22, 22, 255);
+  color: white;
+  font-size: small;
+  font-weight: bold;
+  padding: 10px;
+  cursor: pointer;
+  float: right;
+  margin-top: 10px;
+}
+
+input[type="button"]:focus {
+  outline: none !important;
+}
+
+input[type="button"]:hover {
+  background-color: rgb(155, 59, 59);
 }
 
 ul.topnav li a:hover:not(.active) {

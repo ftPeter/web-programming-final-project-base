@@ -1,10 +1,9 @@
 $(document).ready(function () {
-    loadOrder();
-    // postOrderConfirmation();
-    // updateStatus();
+    loadOrderConfirmation();
+    setInterval(updateStatus, 5 * 60 * 1000);
 });
 
-function loadOrder() {
+function loadOrderConfirmation() {
     $.ajax({
         url: "/api/orders/" + localStorage.getItem("customerID"),
         type: "GET",
@@ -32,10 +31,10 @@ function loadOrder() {
     });
 }
 
-async function postOrderConfirmation() {
-    
-}
-
 async function updateStatus() {
 
+}
+
+async function getStatus() {
+    
 }

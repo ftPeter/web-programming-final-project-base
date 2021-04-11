@@ -140,54 +140,6 @@ express()
       }
     }
   })
-  // ENDPOINT for updating the confirmation info to DB on order confirmation page
-  .put('/api/confirm', async (req, res) => {
-    const customer_id = req.body.customerid;
-    const order = req.body.order;
-  
-    // CREATE ORDER STRING
-      
-    if (validateConfirm(order)) {
-        // Push the new information to the database
-        // and get the result for the new order number
-        let query_text = "INSERT INTO order_table (c_id, customer_order, status) ";
-            query_text += "VALUES ('" + customer_id + "', '" + order + "', 'Received')";
-            query_text += "RETURNING c_id;";
-
-        try {
-          const client = await pool.connect();
-
-          // INSERT the new order information
-          const result = await client.query(query_text);
-
-          // get the new ID number returned from the INSERT query
-          const order_number = (result.rows.length > 0) ? result.rows[0].c_id : null; 
-
-          // with the new order number, get the appropriate customer info
-          const select_result = await client.query('SELECT * FROM order_table WHERE c_id = ' + order_number);
-          const results = (select_result) ? select_result.rows[0] : null;
-
-          const order_status = results.order_status;
-          const customer_id = results.c_id;
-          const order = results.order;
-
-          let customer_info = {
-            customer_id: customer_id,
-            order: order,
-            ordernumber: order_number,                      
-            orderstatus: order_status
-          };
-
-          res.json(customer_info);
-          client.release();
-        } catch (err) {
-          console.error(err);
-          res.send("Error " + err);
-        }
-    } else {
-        res.send(400);
-    }
-  })
   // ENDPOINT for getting the status of the order from confirmation page using api/order-status
   .get('/api/order-status', async (req, res) => {
       const customer_id = req.query.customer_id;
@@ -219,9 +171,8 @@ express()
       // POSSIBLE ORDER STATUS LIST
       // 
       // 'Received' -> 'Cooking'
-      // 'Cooking' -> 'Out For Delivery'
-      // 'Out For Delivery' -> 'Delivered'
-      // 'Delivered' -> 'Delivered'
+      // 'Cooking' -> 'Ready for Pick-Up'
+      // 'Ready for Pick-Up' -> 'Picked Up'
       let new_status = "";
       if (old_status === 'Received')
         new_status = 'Cooking';

@@ -102,6 +102,14 @@ input[type="button"] {
   float: right;
 }
 
+input[type="button"]:focus {
+  outline: none !important;
+}
+
+input[type="button"]:hover {
+  background-color: rgb(155, 59, 59);
+}
+
 ul.icon-and-title {
   list-style-type: none;
   margin: 0;
