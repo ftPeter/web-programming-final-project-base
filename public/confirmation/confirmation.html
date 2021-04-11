@@ -4,8 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="confirmation.css" />
-
+    <link rel="stylesheet" href="confirmation.css"/>
+    <link rel='stylesheet' type="text/css"
+        href='https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.css' />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.js"></script>
+    <script src="confirmation.js"></script>
     <title>Order Confirmation</title>
 </head>
 
@@ -37,7 +41,7 @@
             <hr>
             <div id="order-info">
                 <!-- Dynamically add order total -->
-                <p id="total"><strong>Order Total: </strong></p>
+                <p><strong>Order Total: </strong><span id="total"></span></p>
             </div>
         </div>
         <br>
@@ -51,6 +55,9 @@
             <p><strong>Order Estimate:</strong></p>
             <p id="estimate">About 20-25 MIN</p>
         </div>
+        <form>
+            <input type="button" id="refresh" value="Check Status">
+        </form>
     </div>
 </body>
 

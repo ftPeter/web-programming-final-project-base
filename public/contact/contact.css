@@ -116,6 +116,10 @@ li.logout button {
   background-color: rgb(29, 29, 29);
 }
 
+input[type="button"]:focus {
+  outline: none !important;
+}
+
 ul.topnav li a:hover:not(.active),
 ul.topnav li button:hover:not(.active) {
   background-color: rgb(65, 65, 65);
