@@ -1,6 +1,9 @@
 $(document).ready(function () {
+    // AFTER 25 Minutes
+    setTimeout(60 * 25000);
     loadOrderConfirmation();
-    setInterval(updateStatus, 2 * 60 * 1000);
+    // Update every 5 Minutes
+    setInterval(updateStatus, 60 * 5000);
     $("#refresh").click(refreshStatus);
 });
 
@@ -37,7 +40,7 @@ async function updateStatus() {
     $.ajax({
         url: "/api/order-status",
         type: "PUT",
-        data: JSON.stringify({confirm_num: localStorage.getItem("confirmNumber")})  
+        data: {confirm_num: localStorage.getItem("confirmNumber")}  
     }).done(function (data) {
         refreshStatus();
     }).fail(function (jqXHR) {
@@ -52,7 +55,6 @@ async function refreshStatus() {
         type: "GET"
     }).done(function (data) {
         const order_status = data.order_status;
-        console.log(order_status);
         $("#status").html(order_status);
     }).fail(function (jqXHR) {
         console.log("Error loading the order");

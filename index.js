@@ -247,7 +247,23 @@ function validateMenu(entrees, sides, price) {
   return (entrees.length != 0 || sides.length != 0 && price != "0.00");
 }
 
-// server side validation for the confirm page submissions
-function validateConfirm(order) {
-  return (order.length != 0);
-}
+
+/* * * * * * * * * * * * * * * * * * * * * *  
+ *             DATABASE TABLES             *
+ * * * * * * * * * * * * * * * * * * * * * * 
+
+TABLE customer( 
+    customer_id SERIAL PRIMARY KEY, 
+    username TEXT NOT NULL, 
+    password_hash TEXT NOT NULL
+);
+
+TABLE order_table( 
+    c_id INT, 
+    customer_order TEXT NOT NULL, 
+    confirm_num SERIAL PRIMARY KEY, 
+    status TEXT, 
+    FOREIGN KEY (c_id) REFERENCES customer (customer_id)
+);
+
+*/
