@@ -1,26 +1,31 @@
 $(document).ready(function () {
     loadOrder();
-    postOrderConfirmation();
-    updateStatus();
+    // postOrderConfirmation();
+    // updateStatus();
 });
 
-async function loadOrder() {
+function loadOrder() {
     $.ajax({
-        url: "/api/orders/:" + localStorage.getItem("customerID"),
+        url: "/api/orders/" + localStorage.getItem("customerID"),
         type: "GET",
     }).done(function (data) {
         let html = "";
-        if (data) {
-            items = data.entrees.concat(data.sides) ;
+        if (!$.isEmptyObject(data)) {
+            const order = data.customer_order;
+            const items = order.entrees.concat(order.sides);
             items.forEach((item, index) => {
-                html += '<div class="leaders">'
-                for (i = 0; i <= item.val; i++) {
-                    html += "<p>" + item.name + "</p><span>" + data.price + "</span>";
+                for (i = 0; i < item.quantity; i++) {
+                    html += '<div class="leaders"> <span>' + item.name + '</span><span>' + item.price + '</span></div>';
                 }
-                html += '</div>'
             });
+            // Populate menu-items with order information
             $("#menu-items").html(html);
-            $("#total").html(data.total);
+            // Populate total with order total
+            $("#total").html("$" + order.total);
+            // Populate number with order confirmation number
+            $("#number").html(data.confirm_num);
+            // Populate status with order status
+            $("#status").html(data.order_status);
         }
     }).fail(function (jqXHR) {
         console.log("Error loading the order");

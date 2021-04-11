@@ -42,8 +42,9 @@ async function checkout() {
             customer_id: localStorage.getItem("customerID"),
             entrees: getEntrees(),
             sides: getSides(),
-            price: getTotal(),
+            total: getTotal(),
         }
+        console.log(order)
         // POST a request with the JSON-encoded order to /orders
         $.ajax({
             type: "POST",
@@ -81,7 +82,7 @@ function getEntrees() {
             price = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
             // Push the the entree with its quantity and price to entreesList
             entreesList.push({
-                entree: entree,
+                name: entree,
                 quantity: val,
                 price: price
             });
@@ -105,7 +106,7 @@ function getSides() {
             price = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
             // Push the the side with its quantity and price to sidesList
             sidesList.push({
-                side: side,
+                name: side,
                 quantity: val,
                 price: price
             });

@@ -72,87 +72,74 @@ express()
     }
   })
   // ENDPOINT for retrieving a user's order from /api/orders to display on confirmation page
-  .get('/api/orders/:customer_id', (req, res) => {
-    // TODO: GET CUSTOMER ORDER FROM DATABASE
-    /* 1. get customer id from customer table using the global customer variable
-       2. get the order row based on customer_id foreign key
-       3. assign menu info variables with returned order variable
-       4. make sure customer_id is an integer, total is a string, entrees and sides are arrays
-    */
-    
+  .get('/api/orders/:customer_id', async (req, res) => {
+    // Get the customer id to query the DB with
     const customer_id = (req.params.customer_id) ? req.params.customer_id : "";
-      
-    let menu_info = {
-      customer_id: customer_id,
-      total: total,
-      entrees: entrees,
-      sides: sides
-    }
+    // Create returning order information variable
+    const c_id = parseInt(customer_id);
+    let order;
 
-    if (validateMenu(entrees, sides, total)) {
-      res.sendStatus(204).json(menu_info);
-    } else {
-      res.sendStatus(404);
+    if (c_id != "") {
+      
+
+      let query_text = "SELECT * FROM order_table ";
+          query_text += "WHERE c_id=" + c_id;
+
+      try{
+        const client = await pool.connect();
+      
+        //Insert the new order information
+        const result = await client.query(query_text);
+
+        if (result.rows.length > 0) {
+          const results = result.rows[result.rows.length-1];
+          order = {
+            customer_order: JSON.parse(results.customer_order),
+            confirm_num: results.confirm_num,
+            order_status: results.status
+          }
+        }
+        res.json(order);
+        client.release();
+      } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+      }
     }
 
   })
   // ENDPOINT for posting a user's order from the menu page to /api/orders
-  .post('/api/orders', (req, res) => {
-    // TODO: POST CUSTOMER ORDER TO DATABASE
-    /* 1. insert order information into the order table with customer id
-       2. 
-    */
-    const order = req.body;
+  .post('/api/orders', async (req, res) => {
+    const c_id = req.body.customer_id;
+    const entrees = req.body.entrees;
+    const sides = req.body.sides;
+    const total = req.body.total;
 
-    if (validateMenu(order.entrees, order.sides)) {
-      // TODO: ADD CUSTOMER ORDER TO DATABASE
-      let query_text = "INSERT INTO order_table (order.entrees, order.status,";
-      query_text += "order.customerID, order.total, order.entrees"
-      query_text += "VALUES (' " + order.entrees + " ' ,' " + order.sides + " ' ,' ";
+    const customer_order = JSON.stringify({
+      entrees: entrees,
+      sides: sides,
+      total: total
+    })
+
+    if (validateMenu(entrees, sides, total)) {
+
+      let query_text = "INSERT INTO order_table (c_id, customer_order, status) ";
+          query_text += "VALUES (" + c_id + ",'" + customer_order + "', 'Received');";
 
       try{
-const client = await pool.connect();
+        const client = await pool.connect();
       
-//Insert the new order information
-      const result = await client.query(query_text);
+        //Insert the new order information
+        await client.query(query_text);
 
-      // get the new ID number returned from the INSERT query
-
-      const order_number = (results) ? results.row[0].id : null;
-
-      // with the new order number, get the apporpitate customer info
-
-      const select_result = await client.query('SELECT * FROM order_table = ' + order_number);
-      const results = (select_results) ? select_results.rows[0] : null;
-
-      const customer_id = results.customer_id;
-      const total = results.total;
-      const entrees = results.entrees;
-      const sides  = results.sides;
-
-        
-    let menu_info = {
-      customerId: customer_id,
-      total: total,
-      entrees: entrees,
-      sides: sides
-    };
-
-
-    res.render('pages/orderstatus', menu_info);
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
-  }
-}
-})
-
-    //  res.sendStatus(200);
-    //   res.sendStatus(400);
-
-  
-
+        res.sendStatus(200);
+        client.release();
+      } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+      }
+    }
+  })
   // ENDPOINT for updating the confirmation info to DB on order confirmation page
   .put('/api/confirm', async (req, res) => {
     const customer_id = req.body.customerid;
@@ -304,10 +291,10 @@ async function addUser(username, password) {
 
 // server side validation for the menu page submissions
 function validateMenu(entrees, sides, price) {
-  return (entrees.length != 0 || sides.length != 0 && price != "$0.00");
+  return (entrees.length != 0 || sides.length != 0 && price != "0.00");
 }
 
-// server side validaiton for the confirm page submissions
+// server side validation for the confirm page submissions
 function validateConfirm(order) {
   return (order.length != 0);
 }
