@@ -106,12 +106,53 @@ express()
 
     if (validateMenu(order.entrees, order.sides)) {
       // TODO: ADD CUSTOMER ORDER TO DATABASE
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(400);
-    }
+      let query_text = "INSERT INTO order_table (order.entrees, order.status,";
+      query_text += "order.customerID, order.total, order.entrees"
+      query_text += "VALUES (' " + order.entrees + " ' ,' " + order.sides + " ' ,' ";
 
-  })
+      try{
+const client = await pool.connect();
+      
+//Insert the new order information
+      const result = await client.query(query_text);
+
+      // get the new ID number returned from the INSERT query
+
+      const order_number = (results) ? results.row[0].id : null;
+
+      // with the new order number, get the apporpitate customer info
+
+      const select_result = await client.query('SELECT * FROM order_table = ' + order_number);
+      const results = (select_results) ? select_results.rows[0] : null;
+
+      const customer_id = results.customer_id;
+      const total = results.total;
+      const entrees = results.entrees;
+      const sides  = results.sides;
+
+        
+    let menu_info = {
+      customerId: customer_id,
+      total: total,
+      entrees: entrees,
+      sides: sides
+    };
+
+
+    res.render('pages/orderstatus', menu_info);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+}
+})
+
+    //  res.sendStatus(200);
+    //   res.sendStatus(400);
+
+  
+
   // ENDPOINT for updating the confirmation info to DB on order confirmation page
   .put('/api/confirm', async (req, res) => {
     const customer_id = req.body.customerid;
