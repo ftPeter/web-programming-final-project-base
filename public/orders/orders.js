@@ -35,6 +35,9 @@ async function loadOrders() {
                             <p><strong>Order Status:</strong></p>
                             <p id="status">${order.order_status}</p>
                         </div>
+                        <div class="buy">
+                            <button id="buy-again">Buy Again</button>
+                        </div>
                     </div>`;
                 orders_html += menu_order;
             });

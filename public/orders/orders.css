@@ -111,6 +111,24 @@ hr {
   margin: 0px 10px;
 }
 
+div.buy {
+  display: inline-block;
+}
+
+/* BUY AGAIN BUTTON */
+#buy-again {
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: rgba(137, 22, 22, 255);
+  color: white;
+  font-size: small;
+  font-weight: bold;
+  padding: 10px;
+  margin: 10px;
+  float: right;
+  cursor: pointer;
+}
+
 /* NAVBAR */
 
 ul.icon-and-title {
