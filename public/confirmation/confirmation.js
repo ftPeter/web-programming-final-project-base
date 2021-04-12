@@ -12,7 +12,6 @@ async function loadOrderConfirmation() {
         url: "/api/orders/" + localStorage.getItem("confirmNumber"),
         type: "GET"
     }).done(function (data) {
-        console.log(data)
         let html = "";
         if (!$.isEmptyObject(data)) {
             const order = data.customer_order;
