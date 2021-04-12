@@ -35,11 +35,16 @@ async function loadOrders() {
                             <p><strong>Order Status:</strong></p>
                             <p id="status">${order.order_status}</p>
                         </div>
+                        <div class="buy">
+                            <button class="buy-again" id="${order.confirm_num}">Buy Again</button>
+                        </div>
                     </div>`;
                 orders_html += menu_order;
             });
+            $("#orders").html(orders_html);
+            $(".buy-again").click(buyOrderAgain);
         }
-        $("#orders").html(orders_html);
+        
     }).fail(function (jqXHR) {
         console.log("Error loading the order");
     });
@@ -72,4 +77,41 @@ async function updateStatus(confirm_num) {
     }).fail(function (jqXHR) {
         console.log("Error loading the order");
     });
+}
+
+async function getOrder(confirm_num) {
+    var order = {};
+    $.ajax({
+        url: "/api/order/" + confirm_num,
+        type: "GET"
+    }).done(function (data) {
+        if (!$.isEmptyObject(data)) {
+            order = data.customer_order;
+        }
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
+    return order;
+}
+
+async function buyOrderAgain() {
+    // Figure out which order it is
+    const confirm_num = this.id;
+    // Get the order
+    const order = await getOrder(confirm_num);
+
+    if (!$.isEmptyObject(order)) {
+        // Post the order again
+        $.ajax({
+            type: "POST",
+            url: "/api/orders",
+            data: JSON.stringify(order),
+            contentType: "application/json",
+        }).done(function (data) {
+            localStorage.setItem("confirm_num", data.confirm_num);
+            location.href = "/confirmation/confirmation.html";
+        }).fail(function (jqXHR) {
+            console.log("The order could not be sent. Please try again");
+        });
+    }
 }
