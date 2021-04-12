@@ -37,7 +37,7 @@ async function loadOrders() {
                             <p id="status">${order.order_status}</p>
                         </div>
                         <div class="buy">
-                            <button id="buy-again">Buy Again</button>
+                            <button class="buy-again" id="${order.confirm_num}">Buy Again</button>
                         </div>
                     </div>`;
                 orders_html += menu_order;
@@ -97,11 +97,11 @@ async function buyOrderAgain() {
             sides: order.sides,
             total: order.total,
             restaurant: order.restaurant
-        }
+        };
         $.ajax({
             type: "POST",
             url: "/api/orders",
-            data: JSON.stringify(order),
+            data: JSON.stringify(new_order),
             contentType: "application/json",
         }).done(function (data) {
             localStorage.setItem("confirm_num", data.confirm_num);

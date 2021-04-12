@@ -130,7 +130,7 @@ div.buy {
 }
 
 /* BUY AGAIN BUTTON */
-#buy-again {
+.buy-again {
   border: 2px solid;
   border-radius: 10px;
   background-color: rgba(137, 22, 22, 255);
