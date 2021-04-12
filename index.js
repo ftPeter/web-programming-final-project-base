@@ -224,9 +224,12 @@ express()
         new_status = 'Picked Up';
 
       // update the db with the new status
-      await client.query("UPDATE order_table SET status='" + new_status + "' WHERE confirm_num=" + confirm_num + ";");
-
-      res.sendStatus(200); 
+      const results = await client.query("UPDATE order_table SET status='" + new_status + "' WHERE confirm_num=" + confirm_num + "RETURNING status;");
+      let status;
+      if (results.rows.length > 0) {
+        status = results.rows[0].status;
+      }
+      res.json({order_status: status}); 
       client.release();
     } catch (err) { 
         console.trace(err); res.send("Error " + err);
