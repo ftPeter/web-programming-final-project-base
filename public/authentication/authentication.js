@@ -45,7 +45,7 @@ async function logout() {
         headers: {"X-Auth": token}
     }).done(function (data) {
         // Clear the local token created on login amd the customer's id
-      localStorage.clear();
+        localStorage.clear();
         // Redirect back to home page
         location.href = "/";
     }).fail(function () {

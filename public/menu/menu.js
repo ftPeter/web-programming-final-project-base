@@ -45,7 +45,6 @@ function checkout() {
             total: getTotal(),
             restaurant: document.title
         }
-        console.log(order)
         // POST a request with the JSON-encoded order to /orders
         $.ajax({
             type: "POST",

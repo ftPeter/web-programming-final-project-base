@@ -2,6 +2,7 @@ $(document).ready(function () {
     loadOrders();
     // Update every 5 Minutes
     setInterval(updateEveryStatus, 60 * 5000);
+    $("#clear-history").click(clearHistory);
 });
 
 async function loadOrders() {
@@ -41,8 +42,10 @@ async function loadOrders() {
                     </div>`;
                 orders_html += menu_order;
             });
+            $("#orders").html(orders_html);
+            $(".buy-again").click(buyOrderAgain);
         }
-        $("#orders").html(orders_html);
+        
     }).fail(function (jqXHR) {
         console.log("Error loading the order");
     });
@@ -72,6 +75,52 @@ async function updateStatus(confirm_num) {
         data: {confirm_num: confirm_num}  
     }).done(function (data) {
         $(`#number:contains(${confirm_num}) #status`).html(data.order_status);
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
+}
+
+
+async function buyOrderAgain() {
+    // Figure out which order it is
+    const confirm_num = this.id;
+    // Get the order
+    $.ajax({
+        url: "/api/order/" + confirm_num,
+        type: "GET"
+    }).done(function (data) {
+        // Post order to DB
+        const order = data.customer_order;
+        const new_order = {
+            customer_id: localStorage.getItem("customer_id"),
+            entrees: order.entrees,
+            sides: order.sides,
+            total: order.total,
+            restaurant: order.restaurant
+        }
+        $.ajax({
+            type: "POST",
+            url: "/api/orders",
+            data: JSON.stringify(order),
+            contentType: "application/json",
+        }).done(function (data) {
+            localStorage.setItem("confirm_num", data.confirm_num);
+            location.href = "/confirmation/confirmation.html";
+        }).fail(function (jqXHR) {
+            console.log("The order could not be sent. Please try again");
+        });
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
+}
+
+async function clearHistory() {
+    $.ajax({
+        type: "DELETE",
+        url: "/api/orders/" + localStorage.getItem("customer_id"),
+        contentType: "application/json",
+    }).done(function (data) {
+        $("#orders").html("");
     }).fail(function (jqXHR) {
         console.log("Error loading the order");
     });
