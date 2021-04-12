@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="orders.css" />
+    <link rel='stylesheet' type="text/css"
+        href='https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.css' />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.js"></script>
+    <script src="../authentication/authentication.js"></script>
+    <script src="orders.js"></script>
+    <title>Customer Orders</title>
+</head>
+
+<body>
+    <div class="title-and-nav">
+        <ul class="icon-and-title">
+            <li><img src="../images/umass_circle_logo.png" alt="UMass Amherst Logo"></li>
+            <li>
+                <h1 id="title">UMass Pick-Up</h1>
+            </li>
+        </ul>
+        <div>
+            <ul class="topnav">
+                <li><a class="active" href="../index.html">Home</a></li>
+                <li><a href="../orders/orders.html">Orders</a></li>
+                <li><a href="../contact/contact.html">Contact</a></li>
+                <li class="logout"><button id="logout">Sign Out</button></li>
+            </ul>
+        </div>
+    </div>
+    <p id="description">Customer Orders</p>
+    <div id="orders"></div>
+</body>
+
+</html>

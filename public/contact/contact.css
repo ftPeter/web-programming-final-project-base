@@ -40,7 +40,7 @@ iframe {
   background-color: rgba(137, 22, 22, 255);
   border-radius: 10px;
   padding: 10px;
-  margin: auto;
+  margin: 10px auto;
   color: white;
 }
 
@@ -58,6 +58,8 @@ iframe {
 #contact-info address ul li {
   list-style-type: none;
 }
+
+/* NAVBAR */
 
 ul.icon-and-title {
   list-style-type: none;
@@ -116,7 +118,7 @@ li.logout button {
   background-color: rgb(29, 29, 29);
 }
 
-input[type="button"]:focus {
+button:focus {
   outline: none !important;
 }
 
