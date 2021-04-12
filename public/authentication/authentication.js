@@ -26,7 +26,7 @@ async function login() {
         // Reset the form after saving the login
         $("form").trigger("reset");
         localStorage.setItem("token", data.token);
-        localStorage.setItem("customerID", data.customer_id);
+        localStorage.setItem("customer_id", data.customer_id);
         open("../index.html", "_self");
     }).fail(function () {
         $("#error").show();

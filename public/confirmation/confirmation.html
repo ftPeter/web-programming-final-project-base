@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="confirmation.css"/>
-    <link rel='stylesheet' type="text/css"
-        href='https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.css' />
+    <link rel='stylesheet'href='https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.css' />
+    <link rel="stylesheet" href="confirmation.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/accessible-nprogress/dist/accessible-nprogress.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
     <script src="confirmation.js"></script>
     <title>Order Confirmation</title>
 </head>
@@ -24,6 +26,7 @@
         <div>
             <ul class="topnav">
                 <li><a class="active" href="../index.html">Home</a></li>
+                <li><a href="../orders/orders.html">Orders</a></li>
                 <li><a href="../contact/contact.html">Contact</a></li>
             </ul>
         </div>
@@ -39,10 +42,11 @@
             <!-- Dynamically add menu items -->
             <div id="menu-items"></div>
             <hr>
-            <div id="order-info">
-                <!-- Dynamically add order total -->
-                <p><strong>Order Total: </strong><span id="total"></span></p>
-            </div>
+            <!-- Dynamically add order total -->
+            <p id="order-total"><i class="fas fa-info-circle" data-toggle="tooltip"></i><strong> Order Total: </strong><span id="total"></span></p>
+            <!-- Dynamically add restaurant name -->
+            <p id="restaurant"><strong>Restaurant: </strong><span id="restaurant-name"></span></p>
+            
         </div>
         <br>
         <!-- Dynamically add order status -->
