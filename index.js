@@ -34,8 +34,10 @@ express()
     if (!req.headers["x-auth"]) {
       res.sendStatus(401).json({ error: "Missing X-Auth header" });
     }
+    // Get the user token generated at login
     const token = req.headers["x-auth"];
     try {
+      // Decode the token to see it matches the customer
       const decoded = jwt.decode(token, secret);
       if (decoded.username === customer) {
         res.sendStatus(200);
@@ -47,6 +49,7 @@ express()
   })
   // ENDPOINT for user authentication in login page
   .post("/api/auth", async function (req, res) {
+    // Keep track of the customer for authentication at logout
     customer = req.body.username;
     const username = customer;
     const password = req.body.password;
@@ -60,6 +63,7 @@ express()
     // Get an authentication object from the database
     try {
       authentication = await authenticate(username, password);
+      // If the user is authorized, pass the client side the token and the customer id
       if (authentication.authorized) {
           res.json({ token: token, customer_id: authentication.ID });
         } else {
@@ -93,15 +97,18 @@ express()
 
         if (result.rows.length > 0) {
           const results = result.rows;
+          // Iterate through the DB result rows and get the order information
           results.forEach((r, index) => {
             const order = {
               customer_order: JSON.parse(r.customer_order),
               confirm_num: r.confirm_num,
               order_status: r.status
             }
+            // Add the individual order to the customer's orders list
             orders.push(order);
           });
         }
+        // Pass the client side the customer's orders
         res.json({customer_orders: orders});
         client.release();
       } catch (err) {
@@ -131,12 +138,14 @@ express()
 
         if (result.rows.length > 0) {
           const results = result.rows[0];
+          // Get the order from the DB with a specific confirmation number
           order = {
             customer_order: JSON.parse(results.customer_order),
             confirm_num: results.confirm_num,
             order_status: results.status
           }
         }
+        // Pass the client side that order
         res.json(order);
         client.release();
       } catch (err) {
@@ -154,6 +163,7 @@ express()
     const total = req.body.total;
     const restaurant = req.body.restaurant
 
+    // Construct customer order for the DB
     const customer_order = JSON.stringify({
       entrees: entrees,
       sides: sides,
@@ -172,6 +182,7 @@ express()
         //Insert the new order information
         const result = await client.query(query_text);
         if (result.rows.length > 0) {
+          // Pass the client side the confirmation number for rendering the confirmation page
           res.json({ confirm_num: result.rows[0].confirm_num });
         }
 
@@ -217,6 +228,7 @@ express()
         const results = await client.query('SELECT status FROM order_table WHERE confirm_num=' + confirm_num + ";");
         const status = (results.rows.length > 0) ? results.rows[0].status : null;
 
+        // Pass the client side the current order status
         res.json({order_status: status});
         client.release();
       } catch (err) {
@@ -254,6 +266,7 @@ express()
       if (results.rows.length > 0) {
         status = results.rows[0].status;
       }
+      // Pass the client side the updated order status
       res.json({order_status: status}); 
       client.release();
     } catch (err) { 

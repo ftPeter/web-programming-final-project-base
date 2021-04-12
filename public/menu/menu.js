@@ -1,7 +1,10 @@
 $(document).ready(function () {
-    $("#menu").on("change", validateOrder)
-    $("#menu").on("change", updateTotal)
-    $('#checkout').click(checkout)
+    // When something changes on the menu validate the order
+    $("#menu").on("change", validateOrder);
+    // When something changes on the menu update the total
+    $("#menu").on("change", updateTotal);
+    // Checkout the customer
+    $('#checkout').click(checkout);
 });
 
 // Validate entrees and sides in the customer order
@@ -66,8 +69,9 @@ function checkout() {
 /* * * * * * * * * * * * * * * * * * * * * *  
  *     HELPER FUNCTIONS for checkout()     *
  * * * * * * * * * * * * * * * * * * * * * *  
-*/
+ */
 
+// Get the entrees for the order
 function getEntrees() {
     let entrees = $('#entrees input[type="number"]');
     let entreesList = [];
@@ -92,6 +96,7 @@ function getEntrees() {
     return entreesList;
 }
 
+// Get the sides for the order
 function getSides() {
     let sides = $('#sidesDrinks input[type="number"]');
     let sidesList = [];
@@ -116,15 +121,18 @@ function getSides() {
     return sidesList;
 }
 
+// Get the total of the order
 function getTotal() {
-    let price = 0.0;
+    let total = 0.0;
     let html = $('input[type="number"]');
     $.each(html, function (index, value) {
         if (parseInt($(value).val()) >= 1) {
-            val = parseInt($(value).val())
+            val = parseInt($(value).val());
+            // Find the price of the order based on the span text after the label
             priceStr = value.nextSibling.nextSibling.nextSibling.nextSibling.innerText;
-            price += (val * parseFloat(priceStr.substring(1)));
+            // Calculate and add to the total
+            total += (val * parseFloat(priceStr.substring(1)));
         }
     });
-    return price.toFixed(2);
+    return total.toFixed(2);
 }

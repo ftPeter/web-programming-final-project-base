@@ -1,16 +1,19 @@
 $(document).ready(function () {
+    // Set up tooltip for order total
     $('[data-toggle="tooltip"]').tooltip({
         title: "Please pay at the restaurant",
         placement: "left"
     });
     // AFTER 25 Minutes
     setTimeout(60 * 25000);
+    // Load the order confirmation at the opening of the page
     loadOrderConfirmation();
     // Update every 5 Minutes
     setInterval(updateStatus, 60 * 5000);
     $("#refresh").click(refreshStatus);
 });
 
+// Load the order and display the order confirmation slip for the customer
 async function loadOrderConfirmation() {
     $.ajax({
         url: "/api/order/" + localStorage.getItem("confirm_num"),
@@ -41,6 +44,7 @@ async function loadOrderConfirmation() {
     });
 }
 
+// Update the order status in the DB
 async function updateStatus() {
     $.ajax({
         url: "/api/order-status",
@@ -53,7 +57,9 @@ async function updateStatus() {
     });
 }
 
+// refresh the order status on the page
 async function refreshStatus() {
+    // start the progress bar
     NProgress.start();
     $.ajax({
         url: "/api/order-status/?confirm_num=" + localStorage.getItem("confirm_num"),
@@ -64,5 +70,6 @@ async function refreshStatus() {
     }).fail(function (jqXHR) {
         console.log("Error loading the order");
     });
+    // finish the loading of the progress bar
     NProgress.done();
 }
