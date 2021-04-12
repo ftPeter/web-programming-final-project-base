@@ -2,6 +2,7 @@ $(document).ready(function () {
     loadOrders();
     // Update every 5 Minutes
     setInterval(updateEveryStatus, 60 * 5000);
+    $("#clear-history").click(clearHistory);
 });
 
 async function loadOrders() {
@@ -79,29 +80,24 @@ async function updateStatus(confirm_num) {
     });
 }
 
-async function getOrder(confirm_num) {
-    var order = {};
-    $.ajax({
-        url: "/api/order/" + confirm_num,
-        type: "GET"
-    }).done(function (data) {
-        if (!$.isEmptyObject(data)) {
-            order = data.customer_order;
-        }
-    }).fail(function (jqXHR) {
-        console.log("Error loading the order");
-    });
-    return order;
-}
 
 async function buyOrderAgain() {
     // Figure out which order it is
     const confirm_num = this.id;
     // Get the order
-    const order = await getOrder(confirm_num);
-
-    if (!$.isEmptyObject(order)) {
-        // Post the order again
+    $.ajax({
+        url: "/api/order/" + confirm_num,
+        type: "GET"
+    }).done(function (data) {
+        // Post order to DB
+        const order = data.customer_order;
+        const new_order = {
+            customer_id: localStorage.getItem("customer_id"),
+            entrees: order.entrees,
+            sides: order.sides,
+            total: order.total,
+            restaurant: order.restaurant
+        }
         $.ajax({
             type: "POST",
             url: "/api/orders",
@@ -113,5 +109,19 @@ async function buyOrderAgain() {
         }).fail(function (jqXHR) {
             console.log("The order could not be sent. Please try again");
         });
-    }
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
+}
+
+async function clearHistory() {
+    $.ajax({
+        type: "DELETE",
+        url: "/api/orders/" + localStorage.getItem("customer_id"),
+        contentType: "application/json",
+    }).done(function (data) {
+        $("#orders").html("");
+    }).fail(function (jqXHR) {
+        console.log("Error loading the order");
+    });
 }

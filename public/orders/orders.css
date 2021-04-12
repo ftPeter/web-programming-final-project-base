@@ -40,6 +40,20 @@ img {
   color: white;
 }
 
+/* CLEAR HISTORY BUTTON */
+#clear-history {
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: rgb(29, 29, 29);
+  color: white;
+  font-size: small;
+  font-weight: bold;
+  padding: 10px;
+  margin: 10px;
+  float: right;
+  cursor: pointer;
+}
+
 /* ORDER SLIP */
 
 #confirmation {

@@ -82,7 +82,7 @@ express()
       const c_id = parseInt(customer_id);
 
       let query_text = "SELECT * FROM order_table ";
-          query_text += "WHERE c_id=" + c_id;
+          query_text += "WHERE c_id=" + c_id + " ";
           query_text += "ORDER BY confirm_num DESC;"
 
       try{
@@ -159,7 +159,7 @@ express()
       sides: sides,
       total: total,
       restaurant: restaurant
-    })
+    });
 
     if (validateMenu(entrees, sides, total)) {
 
@@ -175,6 +175,31 @@ express()
           res.json({ confirm_num: result.rows[0].confirm_num });
         }
 
+        client.release();
+      } catch (err) {
+        console.trace(err);
+        res.send("Error " + err);
+      }
+    }
+  })
+  // ENDPOINT for delete orders with a specific customer id from the DB
+  .delete('/api/orders/:customer_id', async function (req, res) {
+    // Get the customer_id to query the DB with
+    const customer_id = (req.params.customer_id) ? req.params.customer_id : "";
+    if (customer_id != "") {
+      const c_id = parseInt(customer_id);
+
+      // Clear the customer order history from the DB
+      let query_text = "DELETE FROM order_table ";
+          query_text += "WHERE c_id=" + c_id + ";";
+
+      try{
+        const client = await pool.connect();
+      
+        //Insert the new order information
+        await client.query(query_text);
+
+        res.sendStatus(200);
         client.release();
       } catch (err) {
         console.trace(err);
