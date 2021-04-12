@@ -37,7 +37,7 @@ async function loadOrders() {
                             <p id="status">${order.order_status}</p>
                         </div>
                         <div class="buy">
-                            <button class="buy-again" id="${order.confirm_num}">Buy Again</button>
+                            <button id="buy-again">Buy Again</button>
                         </div>
                     </div>`;
                 orders_html += menu_order;
