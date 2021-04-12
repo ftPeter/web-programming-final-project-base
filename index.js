@@ -71,8 +71,47 @@ express()
       res.sendStatus(500);
     }
   })
+  // ENDPOINT for retrieving all of the user's orders from /api/orders to display on orders page
+  .get('/api/orders/:customer_id', async function (req, res) {
+    // Get the customer_id to query the DB with
+    const customer_id = (req.params.customer_id) ? req.params.customer_id : "";
+    // Create returning order information variable
+    let orders = [];
+
+    if (customer_id != "") {
+      const c_id = parseInt(customer_id);
+
+      let query_text = "SELECT * FROM order_table ";
+          query_text += "WHERE c_id=" + c_id;
+          query_text += "ORDER BY confirm_num DESC;"
+
+      try{
+        const client = await pool.connect();
+      
+        //Insert the new order information
+        const result = await client.query(query_text);
+
+        if (result.rows.length > 0) {
+          const results = result.rows;
+          results.forEach((r, index) => {
+            const order = {
+              customer_order: JSON.parse(r.customer_order),
+              confirm_num: r.confirm_num,
+              order_status: r.status
+            }
+            orders.push(order);
+          });
+        }
+        res.json({customer_orders: orders});
+        client.release();
+      } catch (err) {
+        console.trace(err);
+        res.send("Error " + err);
+      }
+    }
+  })
   // ENDPOINT for retrieving a user's order from /api/orders to display on confirmation page
-  .get('/api/orders/:confirm_num', async function (req, res) {
+  .get('/api/order/:confirm_num', async function (req, res) {
     // Get the confirm_num to query the DB with
     const order_num = (req.params.confirm_num) ? req.params.confirm_num : "";
     // Create returning order information variable
@@ -113,11 +152,13 @@ express()
     const entrees = req.body.entrees;
     const sides = req.body.sides;
     const total = req.body.total;
+    const restaurant = req.body.restaurant
 
     const customer_order = JSON.stringify({
       entrees: entrees,
       sides: sides,
-      total: total
+      total: total,
+      restaurant: restaurant
     })
 
     if (validateMenu(entrees, sides, total)) {

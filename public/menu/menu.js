@@ -39,10 +39,11 @@ function checkout() {
     // Create order
     if (validateOrder()) {
         const order = {
-            customer_id: localStorage.getItem("customerID"),
+            customer_id: localStorage.getItem("customer_id"),
             entrees: getEntrees(),
             sides: getSides(),
             total: getTotal(),
+            restaurant: document.title
         }
         console.log(order)
         // POST a request with the JSON-encoded order to /orders
@@ -54,7 +55,7 @@ function checkout() {
         }).done(function (data) {
             // Reset the form after saving the order
             $("form").trigger("reset");
-            localStorage.setItem("confirmNumber", data.confirm_num);
+            localStorage.setItem("confirm_num", data.confirm_num);
             location.href = "/confirmation/confirmation.html";
         }).fail(function (jqXHR) {
             $("error").html("The order could not be sent. Please try again");
