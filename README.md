@@ -6,7 +6,7 @@ This is an online ordering website for University of Massachusetts students and 
 
 <u>**Login:**</u>
 
-Login with your UMass Net ID and password.
+Login with your UMass Spire ID and Password.
 
 ![Login Page](/public/images/login_example.png)
 
@@ -24,9 +24,15 @@ Select the menu items with the given quantity you would like to order and then c
 
 ![Menu Page](/public/images/menu_example.png)
 
-You will then be taken to an order confirmation page, which will display an order confirmation slip. The status of the order will be continually updated until it is ready for pick-up at the restaurant.
+You will then be taken to an order confirmation page, which will display an order confirmation slip. The status of the order will be continually updated until it is ready for pick-up at the restaurant. You can also press the 'Check Status' button to query the database and see if the order's status either changed or stayed the same.
 
 ![Confirmation Page](/public/images/confirmation_example.png)
+
+<u>**Orders:**</u>
+
+Click the 'Orders' button to access the every order placed by the specific customer. They can see their most recent order at the top, and they can clear their order history by pressing the 'Clear History' button. They can also buy the order again with the 'Buy Again' button.
+
+![Orders Page](/public/images/orders_example.png)
 
 <u>**Contact:**</u>
 
