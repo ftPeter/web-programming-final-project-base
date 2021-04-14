@@ -1,16 +1,28 @@
 const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
-const { Pool } = require("pg");
+const {Pool} = require("pg");
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  user: 'jatnanumsuoliz',
+  host: 'ec2-34-225-167-77.compute-1.amazonaws.com',
+  database: 'd912e4dp95ernr',
+  password: 'ea62d1fb916b1294e8406a7889a091f0e1135c639e8e882c49e58e230cb01f94',
+  port: 5432,
+  ssl: true,
 });
 
-express()
-  .use(express.static(path.join(__dirname, "public")))
+
+
+const app = express();
+app.use(cors());
+app.use(bodyParser()); //parses json data for us
+
+    app.use(express.static(path.join(__dirname, "public")))
   .use(express.urlencoded({ extended: true }))
   .set("views", path.join(__dirname, "views"))
   .set("view engine", "ejs")
@@ -196,8 +208,8 @@ express()
   .get("/service", async (req, res) => {
     try {
       // query the db for all the orders
-      const client = await pool.connect();
-      const result = await client.query("SELECT * FROM order_table");
+      const client2 = await client.connect();
+      const result = await client2.query("SELECT * FROM order_table");
       const results = result ? result.rows : null;
 
       // format the db results into orders for rendering
@@ -285,6 +297,49 @@ express()
     }
   })
 
+      //For Getting all pitstops
+    .get("/pitstops", async (req, res) => {
+      try {
+        pool.query('SELECT * FROM pitstops', (err, result) => {
+          //console.log(err, result);
+          if (err) {
+            res.sendStatus(404);
+          } else {
+            const results = { results: result ? result.rows : null };
+           // console.log(results);
+            res.send(JSON.stringify(results));
+          }
+
+        });
+
+      } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+      }
+    })
+
+        .get("/userpitstops", async (req, res) => {
+          try {
+            pool.query('SELECT * FROM userpitstops where userID = ' + req.query.userID, (err, result) => {
+              //console.log(err, result);
+              if (err) {
+                res.sendStatus(404);
+              } else {
+                const results = { results: result ? result.rows : null };
+               // console.log(results);
+                res.send(JSON.stringify(results));
+              }
+
+            });
+
+          } catch (err) {
+            console.error(err);
+            res.send("Error " + err);
+          }
+        })
+
+
+
   // /db is a debugging view into the complete order_table database table
   .get("/db", async (req, res) => {
     try {
@@ -299,6 +354,44 @@ express()
     }
   })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+    app.post("/savepitstops", (req, res) => {
+
+      try {
+        pool.query('DELETE FROM userpitstops where userID = ' + req.body.userID, (err, result) => {
+          if (err) {
+            res.sendStatus(404);
+          } else {
+
+            let additionalSQL = "";
+
+            for (let rowNum in req.body.rows) {
+              let row = req.body.rows[rowNum];
+              additionalSQL += "(" + req.body.userID + ", " + row.id + ", '" + row.time + "'),";
+            }
+
+            additionalSQL = additionalSQL.substring(0, additionalSQL.length - 1);
+
+            let totalSQL = 'INSERT INTO userpitstops (userID, stopID, stopTime) VALUES ' + additionalSQL;
+
+            pool.query(totalSQL, (err, result) => {
+              if (err) {
+                console.log(err);
+                res.sendStatus(404);
+              } else {
+                res.sendStatus(200);
+              }
+            });
+          }
+
+        });
+
+      } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+      }
+    });
 
 /*  HELPER FUNCTIONS BELOW
  */
