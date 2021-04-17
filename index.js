@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
@@ -31,29 +32,108 @@ app
   .get("/", function (req, res) {
     res.sendFile(path.join(__dirname + "/index.html"));
   })
-  .post("/save", async (req, res) => {
-    const name = req.body.name;
-    const days = req.body.days;
-    const building = req.body.building;
-    const hour = req.body.hour;
-    const minute = req.body.minute;
-    const time = req.body.time;
-    const room = req.body.room;
-    const classList = req.body.classList;
+  //For Getting all buildings
+  .get("/buildings", async (req, res) => {
+    try {
+      pool.query("SELECT * FROM buildings", (err, result) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          const results = { results: result ? result.rows : null };
+          res.send(JSON.stringify(results));
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  //For Getting all classes
+  .get("/classes", async (req, res) => {
+    try {
+      pool.query("SELECT * FROM classes", (err, result) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          const results = { results: result ? result.rows : null };
+          res.send(JSON.stringify(results));
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  // For getting all user classes
+  .get("/userclasses", async (req, res) => {
+    try {
+      pool.query(
+        "SELECT * FROM userclasses where userID = " + req.query.userID,
+        (err, result) => {
+          if (err) {
+            res.sendStatus(404);
+          } else {
+            const results = { results: result ? result.rows : null };
+            res.send(JSON.stringify(results));
+          }
+        }
+      );
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  .post("/saveclasses", (req, res) => {
+    try {
+      pool.query(
+        "DELETE FROM userclasses where userID = " + req.body.userID,
+        (err, result) => {
+          if (err) {
+            res.sendStatus(404);
+          } else {
+            let additionalSQL = "";
 
-    let validClass =
-      name !== "" &&
-      days !== "" &&
-      building !== "" &&
-      hour !== "" &&
-      minute !== "" &&
-      time !== "" &&
-      room !== "room";
+            for (let rowNum in req.body.rows) {
+              let row = req.body.rows[rowNum];
+              additionalSQL +=
+                "(" +
+                req.body.userID +
+                ", '" +
+                row.name +
+                ", '" +
+                row.days +
+                ", '" +
+                row.building +
+                ", '" +
+                row.time +
+                ", '" +
+                row.room +
+                "'),";
+            }
 
-    if (validClass) {
-      res.render("home");
-    } else {
-      res.send("Not a valid class. Please make sure all items are selected");
+            additionalSQL = additionalSQL.substring(
+              0,
+              additionalSQL.length - 1
+            );
+
+            let totalSQL =
+              "INSERT INTO userclasses (userID, name, days, building, time, room) VALUES " +
+              additionalSQL;
+
+            pool.query(totalSQL, (err, result) => {
+              if (err) {
+                console.log(err);
+                res.sendStatus(404);
+              } else {
+                res.sendStatus(200);
+              }
+            });
+          }
+        }
+      );
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
     }
   })
   //For Getting all pitstops
