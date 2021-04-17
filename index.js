@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
@@ -31,29 +32,36 @@ app
   .get("/", function (req, res) {
     res.sendFile(path.join(__dirname + "/index.html"));
   })
-  .post("/save", async (req, res) => {
-    const name = req.body.name;
-    const days = req.body.days;
-    const building = req.body.building;
-    const hour = req.body.hour;
-    const minute = req.body.minute;
-    const time = req.body.time;
-    const room = req.body.room;
-    const classList = req.body.classList;
-
-    let validClass =
-      name !== "" &&
-      days !== "" &&
-      building !== "" &&
-      hour !== "" &&
-      minute !== "" &&
-      time !== "" &&
-      room !== "room";
-
-    if (validClass) {
-      res.render("home");
-    } else {
-      res.send("Not a valid class. Please make sure all items are selected");
+  //For Getting all buildings
+  .get("/buildings", async (req, res) => {
+    try {
+      pool.query("SELECT * FROM buildings", (err, result) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          const results = { results: result ? result.rows : null };
+          res.send(JSON.stringify(results));
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  //For Getting all classes
+  .get("/classes", async (req, res) => {
+    try {
+      pool.query("SELECT * FROM classes", (err, result) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          const results = { results: result ? result.rows : null };
+          res.send(JSON.stringify(results));
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
     }
   })
   //For Getting all pitstops
