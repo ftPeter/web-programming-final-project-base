@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Star Ginger</title>
+    <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
+    <link href="menu.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="menu.js" defer></script>
+    <script src="../authentication/authentication.js"></script>
+</head>
+
+<body>
+    <ul class="icon-and-title">
+        <li><img src="../images/umass_circle_logo.png" alt="UMass Amherst Logo"></li>
+        <li>
+            <h1 id="title">UMass Pick-Up</h1>
+        </li>
+    </ul>
+
+    <div>
+        <ul class="topnav">
+            <li><a class="active" href="../index.html">Home</a></li>
+            <li><a href="../orders/orders.html">Orders</a></li>
+            <li><a href="../contact/contact.html">Contact</a></li>
+            <li class="logout"><button id="logout">Sign Out</button></li>
+        </ul>
+    </div>
+
+    <br>
+    <div id="menu">
+        <h1> Star Ginger Menu</h1>
+        <p id="instructions"><strong>Instructions:</strong><br>Please choose quantity of your desired menu item(s).</p>
+
+        <form>
+            <div id="entrees">
+            <h2>Entrees</h2>
+            <div id="warning" hidden> **Please select at least one item from the entire menu </div>
+            <div>
+                <div class= "leaders">
+                    <input type="number" name="entree"  id="gcc" min="0">
+                    <label for="gcc">Green Curry Chicken Entree</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="jct" min="0">
+                    <label for="jct">Jungle Curry Tofu Entree</label>
+                    <span>$9.99</span>
+                </div>
+                
+                <div class= "leaders">
+                    <input type="number" name="entree" id="lc" min="0">
+                    <label for="lc">Lemongrass Chicken Entree</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="lp" min="0">
+                    <label for="lp">Lemongrass Pork Entree</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="mb" min="0">
+                    <label for="mb">Mongolian Beef Entree</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="oc" min="0">
+                    <label for="oc">Orange Chicken Entree</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="tbc" min="0">
+                    <label for="tbc">Thai BBQ Chicken Entree</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="bpcb" min="0">
+                    <label for="bpcb">Beef Pho w/Chicken Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="bpsg" min="0">
+                    <label for="bpsg">Beef Pho w/Spicy Green Curry Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="bpvb" min="0">
+                    <label for="bpvb">Beef Pho w/Vegetable Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="cpcb" min="0">
+                    <label for="cpcb">Chicken Pho w/Chicken Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="cpsgcb" min="0">
+                    <label for="cpsgcb">Chicken Pho w/Spicy Green Curry Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="cpvb" min="0">
+                    <label for="cpvb">Chicken Pho w/Vegetable Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="tpcb" min="0">
+                    <label for="tpcb">Tofu Pho w/Chicken Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="tpsgcb" min="0">
+                    <label for="tpsgcb">Tofu Pho w/Spicy Green Curry Broth</label>
+                    <span>$9.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="tpvb" min="0">
+                    <label for="tpvb">Tofu Pho w/Vegetable Broth</label>
+                    <span>$9.99</span>
+                </div>
+            </div>
+        </div>
+
+            <div id="sidesDrinks"> 
+                <h2>Side and Drinks </h2>
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="jtb" min="0">
+                        <label for="jtb">Jasmine Tea with Boba</label>
+                        <span>$3.99</span>
+                    </div>
+                    
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="mtb" min="0">
+                        <label for="mtb">Matcha Tea with Boba</label>
+                        <span>$3.99</span>
+                    </div>
+
+                    <div class= "leaders">
+                        <input type= "number" name="Snd" id="ttb" min="0">
+                        <label for="ttb">Taro Tea with Boba</label>
+                        <span>$3.99</span>
+                    </div>
+
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="amg" min="0">
+                        <label for="amg">Asian Mixed Greens</label>
+                        <span>$2.99</span>
+                    </div>
+
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="br" min="0">
+                        <label for="br">Brown Rice</label>
+                        <span>$1.99</span>
+                    </div>
+
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="gbrp" min="0">
+                        <label for="gbrp">Green Beans w/Red Peppers</label>
+                        <span>$2.99</span>
+                    </div>
+
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="chp" min="0">
+                        <label for="chp">Chicken Potsticker</label>
+                        <span>$2.99</span>
+                    </div>
+
+                    <div class= "leaders">
+                        <input type="number" name="Snd" id="vsr" min="0">
+                        <label for="vsr">Vegetable Spring Rolls</label>
+                        <span>$2.99</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <p id="total"><strong>Order Total: </strong>$0.00</p>
+                    </div>
+                </div>
+            <input type="button" id="checkout" value="Check Out">
+            <div id="error"></div>
+        </form>
+    </div>
+    <br>
+</body>
+
+</html>

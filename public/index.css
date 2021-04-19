@@ -22,6 +22,7 @@ img {
 
 .grid-item {
   font-size: 20px;
+  padding: 15px;
   text-align: center;
   margin: 20px;
 }

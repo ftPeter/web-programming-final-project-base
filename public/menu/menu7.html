@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Yum! Bakery</title>
+    <link rel="shortcut icon" href="../images/umass_circle_logo.png" type="image/x-icon">
+    <link href="menu.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="menu.js" defer></script>
+    <script src="../authentication/authentication.js"></script>
+</head>
+
+<body>
+    <ul class="icon-and-title">
+        <li><img src="../images/umass_circle_logo.png" alt="UMass Amherst Logo"></li>
+        <li>
+            <h1 id="title">UMass Pick-Up</h1>
+        </li>
+    </ul>
+
+    <div>
+        <ul class="topnav">
+            <li><a class="active" href="../index.html">Home</a></li>
+            <li><a href="../orders/orders.html">Orders</a></li>
+            <li><a href="../contact/contact.html">Contact</a></li>
+            <li class="logout"><button id="logout">Sign Out</button></li>
+        </ul>
+    </div>
+
+    <br>
+    <div id="menu">
+        <h1> Yum! Bakery Menu</h1>
+        <p id="instructions"><strong>Instructions:</strong><br>Please choose quantity of your desired menu item(s).</p>
+
+        <form>
+            <div id="entrees">
+            <h2>Entrees</h2>
+            <div id="warning" hidden> **Please select at least one item from the entire menu </div>
+            <div>
+                <div class= "leaders">
+                    <input type="number" name="entree"  id="vg" min="0">
+                    <label for="vg">Vanilla Gelato</label>
+                    <span>$3.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="cg" min="0">
+                    <label for="cg">Chocolate Gelato</label>
+                    <span>$3.99</span>
+                </div>
+                
+                <div class= "leaders">
+                    <input type="number" name="entree" id="sg" min="0">
+                    <label for="sg">Strawberry Gelato</label>
+                    <span>$3.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="mg" min="0">
+                    <label for="mg">Mango Gelato</label>
+                    <span>$3.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="rg" min="0">
+                    <label for="rg">Rose Gelato</label>
+                    <span>$3.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="eg" min="0">
+                    <label for="eg">Egg Tart</label>
+                    <span>$2.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="ft" min="0">
+                    <label for="ft">Fruit Tart</label>
+                    <span>$2.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="cp" min="0">
+                    <label for="cp">Chocolate Cakepop</label>
+                    <span>$1.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="vcp" min="0">
+                    <label for="vcp">Vanilla Cakepop</label>
+                    <span>$1.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="s" min="0">
+                    <label for="s">S'mores</label>
+                    <span>$2.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="vc" min="0">
+                    <label for="vc">Vanilla Cake</label>
+                    <span>$10.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="cc" min="0">
+                    <label for="cc">Chocolate Cake</label>
+                    <span>$10.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="ss" min="0">
+                    <label for="ss">Strawberry Shortcake </label>
+                    <span>$10.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="b" min="0">
+                    <label for="b">Brownie</label>
+                    <span>$2.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="sc" min="0">
+                    <label for="sc">Sugar Cookie</label>
+                    <span>$1.99</span>
+                </div>
+
+                <div class= "leaders">
+                    <input type="number" name="entree" id="ccc" min="0">
+                    <label for="ccc">Chocolate Chip Cookie</label>
+                    <span>$1.99</span>
+                </div>
+            </div>
+        </div>
+            <input type="button" id="checkout" value="Check Out">
+            <div id="error"></div>
+        </form>
+    </div>
+    <br>
+</body>
+
+</html>
